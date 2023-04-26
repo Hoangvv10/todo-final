@@ -8,7 +8,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './Form.module.scss';
 import FormInput from '../FormInput';
-import { User } from '../TSType';
+import { TUser } from '../TSType';
 import { UserContext } from '../../store/UserContext';
 
 const cx = classNames.bind(styles);
@@ -90,10 +90,10 @@ const Form: React.FC = () => {
                     resolve(response);
                     if (response.status === 200) {
                         const user = response.data.find(
-                            (u: User) => u.userName === userName && u.password === password,
+                            (u: TUser) => u.userName === userName && u.password === password,
                         );
 
-                        const userRegister = response.data.find((u: User) => u.userName === userName);
+                        const userRegister = response.data.find((u: TUser) => u.userName === userName);
 
                         if (isLogin) {
                             if (user) {
@@ -117,7 +117,7 @@ const Form: React.FC = () => {
                                 });
                                 setFormValues({ userName: '', email: email, password: password, confirmPassword: '' });
                             } else {
-                                const userData: User = {
+                                const userData: TUser = {
                                     userName: userName,
                                     email: email,
                                     password: password,
@@ -138,6 +138,7 @@ const Form: React.FC = () => {
                                         console.error(error);
                                     });
                                 setFormValues(initValue);
+                                setIsLogin(true);
                             }
                         }
                     } else {
@@ -149,6 +150,7 @@ const Form: React.FC = () => {
             });
         }
         setIsSubmit(false);
+        // setIsLogin(true);
     }, [isSubmit]);
 
     const signUpInputs: Input[] = [
@@ -205,7 +207,7 @@ const Form: React.FC = () => {
             type: 'text',
             placeholder: 'Username...',
             label: 'Username',
-            required: true,
+            required: false,
             pattern: '^[A-Za-z0-9]{3,16}$',
             autoComplete: 'username',
         },
@@ -215,7 +217,7 @@ const Form: React.FC = () => {
             type: 'password',
             placeholder: 'Password...',
             label: 'Password',
-            required: true,
+            required: false,
             autoComplete: 'current-password',
         },
     ];

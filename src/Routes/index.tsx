@@ -1,13 +1,7 @@
 import Home from '../Component/Pages/Home';
 import Admin from '../Component/Pages/Admin';
+import { TRouter } from '../Component/TSType';
 
-interface router {
-    path: string;
-    component: React.FC;
-    layout?: string;
-}
+export const publicRoutes: TRouter[] = [{ path: '/', component: Home }];
 
-export const publicRoutes: router[] = [
-    { path: '/', component: Home },
-    { path: '/admin', component: Admin },
-];
+export const privateRoutes: TRouter[] = [{ path: '/admin', component: Admin }];

@@ -6,19 +6,21 @@ import moment from 'moment';
 import axios from 'axios';
 import { faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 
-import { TaskItems } from '../TSType';
+import { TTaskItems } from '../TSType';
 import styles from './Item.module.scss';
 import { Category, Status } from '../TSType';
 
 const cx = classNames.bind(styles);
 
 interface Props {
-    item: TaskItems;
+    item: TTaskItems;
     index: number;
     handleDelete: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
     isAdd?: boolean;
-    handleAdd?: (value: TaskItems | null) => void;
+    handleAdd?: (value: TTaskItems | null) => void;
     userId: number;
+    listId?: number[];
+    handHeader?: (value: boolean) => void;
 }
 
 interface FormValues {
@@ -28,8 +30,12 @@ interface FormValues {
     content: string;
 }
 
-const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, userId }) => {
-    const [data, setData] = useState<TaskItems | undefined>();
+interface userIdValue {
+    idUser: number;
+}
+
+const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, userId, listId, handHeader }) => {
+    const [data, setData] = useState<TTaskItems | undefined>();
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
     const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
@@ -40,6 +46,9 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
         content: '',
     };
     const [formValues, setFormValues] = useState<FormValues>(initValue);
+    const [curId, setCurId] = useState<userIdValue>({
+        idUser: 0,
+    });
 
     useEffect(() => {
         setData(item);
@@ -47,12 +56,14 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
 
     const handleOpenEdit = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>): void => {
         setIsEditOpen(true);
+        if (handHeader) handHeader(false);
     };
 
     const handleCloseEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         setIsEditOpen(false);
         if (handleAdd) handleAdd(null);
+        if (handHeader) handHeader(true);
     };
 
     const handleInput = (
@@ -65,6 +76,15 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
 
         setFormValues({
             ...formValues,
+            [name]: value,
+        });
+    };
+
+    const handleIdInput = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = e.target;
+
+        setCurId({
+            ...curId,
             [name]: value,
         });
     };
@@ -86,21 +106,23 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
 
     useEffect(() => {
         if (isSubmit) {
+            const { idUser } = curId;
+
             const addData = {
                 content: formValues.content,
                 title: formValues.title,
                 status: formValues.status,
                 category: formValues.category,
-                userId: userId,
+                userId: userId !== 1 ? userId : idUser,
                 createAt: moment(new Date()).format('DD/MM/YYYY'),
                 updateAt: moment(new Date()).format('DD/MM/YYYY'),
             };
 
-            const editData: TaskItems = {
-                content: formValues.content,
-                title: formValues.title,
-                status: formValues.status,
-                category: formValues.category,
+            const editData: TTaskItems = {
+                content: formValues.content === '' && data ? data?.content : formValues.content,
+                title: formValues.title === '' && data ? data?.title : formValues.title,
+                status: formValues.status === '' && data ? data?.status : formValues.status,
+                category: formValues.category === '' && data ? data?.content : formValues.content,
                 userId: userId,
                 createAt: item.createAt,
                 updateAt: moment(new Date()).format('DD/MM/YYYY'),
@@ -129,8 +151,14 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
     }, [isSubmit]);
 
     return (
-        <div className={cx('item')}>
+        <div
+            className={cx({
+                item: true,
+                'is-first': index === 0 && isEditOpen,
+            })}
+        >
             <div className={cx('id')}>{index + 1}</div>
+            {userId === 1 && <div className={cx('id')}>{data?.userId}</div>}
             <div className={cx('title')}>{data?.title}</div>
             <div className={cx('content')}>{data?.content}</div>
             <div className={cx('date')}>{data?.updateAt}</div>
@@ -160,45 +188,65 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                 onSubmit={handleSubmit}
             >
                 <div className={cx('inner')}>
-                    <input
-                        type="text"
-                        name="title"
-                        value={formValues.title}
-                        className={cx('form-title')}
-                        onChange={handleInput}
-                        required
-                    />
-                    <textarea
-                        name="content"
-                        value={formValues.content}
-                        className={cx('form-content')}
-                        onChange={handleInput}
-                        required
-                    />
-                    <select
-                        name="category"
-                        value={formValues.category}
-                        className={cx('form-category')}
-                        onChange={handleInput}
-                        required
-                    >
-                        <option>------</option>
-                        <option>red</option>
-                        <option>yellow</option>
-                        <option>green</option>
-                    </select>
-                    <select
-                        name="status"
-                        value={formValues.status === '' ? data?.status : formValues.status}
-                        className={cx('form-status')}
-                        onChange={handleInput}
-                        required
-                    >
-                        <option>------</option>
-                        <option>to do</option>
-                        <option>in progress</option>
-                        <option>completed</option>
-                    </select>
+                    {userId === 1 && (
+                        <div className={cx('form-category')}>
+                            <select name="idUser" value={curId.idUser} onChange={handleIdInput} required>
+                                <option></option>
+                                <>
+                                    {listId?.map((item, index) => (
+                                        <option key={index}>{item}</option>
+                                    ))}
+                                </>
+                            </select>
+                            <label>User id</label>
+                        </div>
+                    )}
+                    <div className={cx('form-title')}>
+                        <textarea
+                            name="title"
+                            value={formValues.title === '' ? data?.title : formValues.title}
+                            onChange={handleInput}
+                            required
+                        />
+                        <label>title</label>
+                    </div>
+                    <div className={cx('form-content')}>
+                        <textarea
+                            name="content"
+                            value={formValues.content === '' ? data?.content : formValues.content}
+                            onChange={handleInput}
+                            required
+                        />
+                        <label>content</label>
+                    </div>
+                    <div className={cx('form-category')}>
+                        <select
+                            name="category"
+                            value={formValues.category === '' ? data?.category : formValues.category}
+                            onChange={handleInput}
+                            required
+                        >
+                            <option></option>
+                            <option>red</option>
+                            <option>yellow</option>
+                            <option>green</option>
+                        </select>
+                        <label>category</label>
+                    </div>
+                    <div className={cx('form-status')}>
+                        <select
+                            name="status"
+                            value={formValues.status === '' ? data?.status : formValues.status}
+                            onChange={handleInput}
+                            required
+                        >
+                            <option></option>
+                            <option>to do</option>
+                            <option>in progress</option>
+                            <option>completed</option>
+                        </select>
+                        <label>status</label>
+                    </div>
 
                     <div className={cx('form-btn')}>
                         <button className={cx('abort')} onClick={handleCloseEdit}>

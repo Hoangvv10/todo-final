@@ -1,5 +1,5 @@
 import styles from './UserItem.module.scss';
-import { User } from '../TSType';
+import { TUser } from '../TSType';
 
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
@@ -11,7 +11,7 @@ import axios from 'axios';
 const cx = classNames.bind(styles);
 
 interface Props {
-    prop: User;
+    prop: TUser;
     index: number;
     handleDelete: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
 }
@@ -22,7 +22,7 @@ interface FormValues {
 }
 
 const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
-    const [data, setData] = useState<User | undefined>();
+    const [data, setData] = useState<TUser | undefined>();
 
     useEffect(() => {
         setData(prop);
@@ -72,7 +72,7 @@ const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
 
     useEffect(() => {
         if (isSubmit) {
-            const editData: User = {
+            const editData: TUser = {
                 userName: formValues.userName,
                 password: data?.password,
                 email: formValues.email,

@@ -1,22 +1,32 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { publicRoutes } from './Routes';
-import { Fragment } from 'react';
+import { privateRoutes, publicRoutes } from './Routes';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
 
-import GlobalStyle from './Component/GlobalStyle';
 import DefaultLayout from './Component/Layout/DefaultLayout';
+import { UserContext } from './store/UserContext';
+import { TRouter } from './Component/TSType';
 
 function App() {
+    const { userId } = useContext(UserContext);
+
+    const [routes, setRoutes] = useState<TRouter[]>();
+
+    useEffect(() => {
+        userId === 1 ? setRoutes([...publicRoutes, ...privateRoutes]) : setRoutes(publicRoutes);
+    }, [userId]);
+
     return (
         <Router>
-            <GlobalStyle />
             <div>
                 <ToastContainer />
                 <Routes>
-                    {publicRoutes.map((route, index) => {
+                    {routes?.map((route, index) => {
                         const Layout = route.layout === null ? Fragment : DefaultLayout;
                         const Page = route.component;
+
                         return (
                             <Route
                                 key={index}

@@ -35,6 +35,27 @@
 .nav {
     padding: 12px 0;
     cursor: pointer;
+
+    &:hover {
+        color: #f7d060;
+    }
+}
+
+.nav-active {
+    color: #f7d060;
+    position: relative;
+    cursor: default;
+}
+
+.nav-active::after {
+    content: '';
+    display: block;
+    position: absolute;
+    right: -40px;
+    width: 4px;
+    top: 4px;
+    bottom: 4px;
+    background-color: #f7d060;
 }
 
 .nav-text {

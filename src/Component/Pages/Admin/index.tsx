@@ -1,5 +1,5 @@
 import styles from '../Home/Home.module.scss';
-import { User } from '../../TSType';
+import { TUser } from '../../TSType';
 import UserItem from '../../UserItem';
 
 import classNames from 'classnames/bind';
@@ -9,7 +9,7 @@ import axios from 'axios';
 const cx = classNames.bind(styles);
 
 const Admin: React.FC = () => {
-    const [data, setData] = useState<User[]>([]);
+    const [data, setData] = useState<TUser[]>([]);
 
     useEffect(() => {
         new Promise(async (resolve, reject) => {
@@ -49,7 +49,7 @@ const Admin: React.FC = () => {
             <div className={cx('inner')}>
                 <div className={cx('table')}>
                     <div className={cx('header')}>
-                        <div className={cx('id')}>Index</div>
+                        <div className={cx('id')}>Id</div>
                         <div className={cx('name')}>Username</div>
                         <div className={cx('email')}>Email</div>
                         <div className={cx('password')}>Password</div>

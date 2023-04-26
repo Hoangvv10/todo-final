@@ -18,6 +18,8 @@ interface DataItem {
 const Sidebar: React.FC = () => {
     const { userId, setUserId } = useContext(UserContext);
     const [userName, setUserName] = useState<string>('');
+    const [navActive, setNavActive] = useState<number>(1);
+
     const navigate = useNavigate();
 
     const [openLogin, setOpenLogin] = useState<boolean>(false);
@@ -37,6 +39,7 @@ const Sidebar: React.FC = () => {
     const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         setUserId(0);
         setUserName('');
+        userId === 1 && navigate('/');
     };
 
     useEffect(() => {
@@ -72,17 +75,35 @@ const Sidebar: React.FC = () => {
                         </button>
                     ) : (
                         <p className={cx('welcome')}>
-                            Welcome <span className={cx('user')}>{userName},</span>
+                            Welcome <span className={cx('user')}>{userName}</span>
                         </p>
                     )}
                 </div>
                 {userId === 1 && (
                     <ul className={cx('nav-group')}>
-                        <li className={cx('nav')} onClick={() => navigate('/')}>
+                        <li
+                            className={cx({
+                                nav: true,
+                                'nav-active': navActive === 1,
+                            })}
+                            onClick={() => {
+                                navigate('/');
+                                setNavActive(1);
+                            }}
+                        >
                             <FontAwesomeIcon icon={faHouse} />
                             <span className={cx('nav-text')}>Projects</span>
                         </li>
-                        <li className={cx('nav')} onClick={() => navigate('/admin')}>
+                        <li
+                            className={cx({
+                                'nav-active': navActive === 2,
+                                nav: true,
+                            })}
+                            onClick={() => {
+                                navigate('/admin');
+                                setNavActive(2);
+                            }}
+                        >
                             <FontAwesomeIcon icon={faUser} />
                             <span className={cx('nav-text')}>Users</span>
                         </li>
