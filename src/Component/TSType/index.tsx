@@ -16,7 +16,7 @@ export type Category = 'red' | 'yellow' | 'green';
 export type TUser = {
     id?: number;
     userName: string;
-    email: string;
+    email?: string;
     password: string | undefined;
     createAt?: string;
     updateAt: string;

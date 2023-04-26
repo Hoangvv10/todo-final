@@ -108,7 +108,7 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 4%;
+    left: 0;
     right: 0;
     display: none;
     background-color: #fff;
@@ -157,7 +157,7 @@
     width: 9%;
 }
 
-.is-first label {
+.is-first .label {
     transform: translateY(10%);
     text-decoration: underline;
     background-color: transparent;
@@ -175,7 +175,7 @@
     min-height: 90px;
 }
 
-label {
+.label {
     font-weight: lighter;
     position: absolute;
     top: 0;

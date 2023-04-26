@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 interface UserContextType {
     userId: number;
@@ -16,6 +16,11 @@ interface Props {
 
 const UserProvider: React.FC<Props> = ({ children }) => {
     const [userId, setUserId] = useState(0);
+
+    useEffect(() => {
+        setUserId(Number(localStorage.getItem('userId')));
+    }, []);
+
     const userContextValue = { userId, setUserId };
 
     return <UserContext.Provider value={userContextValue}>{children}</UserContext.Provider>;

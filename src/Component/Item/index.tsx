@@ -154,7 +154,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
         <div
             className={cx({
                 item: true,
-                'is-first': index === 0 && isEditOpen,
+                'is-first': (index === 0 && isEditOpen) || !!handleAdd,
             })}
         >
             <div className={cx('id')}>{index + 1}</div>
@@ -198,7 +198,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                                     ))}
                                 </>
                             </select>
-                            <label>User id</label>
+                            <label className={cx('label')}>User id</label>
                         </div>
                     )}
                     <div className={cx('form-title')}>
@@ -208,7 +208,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                             onChange={handleInput}
                             required
                         />
-                        <label>title</label>
+                        <label className={cx('label')}>title</label>
                     </div>
                     <div className={cx('form-content')}>
                         <textarea
@@ -217,7 +217,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                             onChange={handleInput}
                             required
                         />
-                        <label>content</label>
+                        <label className={cx('label')}>content</label>
                     </div>
                     <div className={cx('form-category')}>
                         <select
@@ -231,7 +231,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                             <option>yellow</option>
                             <option>green</option>
                         </select>
-                        <label>category</label>
+                        <label className={cx('label')}>category</label>
                     </div>
                     <div className={cx('form-status')}>
                         <select
@@ -245,7 +245,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                             <option>in progress</option>
                             <option>completed</option>
                         </select>
-                        <label>status</label>
+                        <label className={cx('label')}>status</label>
                     </div>
 
                     <div className={cx('form-btn')}>

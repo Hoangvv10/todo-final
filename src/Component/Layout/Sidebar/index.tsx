@@ -40,6 +40,7 @@ const Sidebar: React.FC = () => {
         setUserId(0);
         setUserName('');
         userId === 1 && navigate('/');
+        localStorage.setItem('userId', '0');
     };
 
     useEffect(() => {

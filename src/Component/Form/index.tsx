@@ -41,7 +41,6 @@ const Form: React.FC = () => {
     };
     const [formValues, setFormValues] = useState<FormValues>(initValue);
     const [isSubmit, setIsSubmit] = useState<boolean>(false);
-    const [data, setData] = useState<Input[] | undefined>();
     const [isLogin, setIsLogin] = useState<boolean>(true);
 
     const { setUserId } = useContext(UserContext);
@@ -74,10 +73,6 @@ const Form: React.FC = () => {
     };
 
     useEffect(() => {
-        isLogin ? setData(logInInputs) : setData(signUpInputs);
-    }, [isLogin]);
-
-    useEffect(() => {
         if (isSubmit) {
             const { userName, email, password } = formValues;
 
@@ -98,6 +93,7 @@ const Form: React.FC = () => {
                         if (isLogin) {
                             if (user) {
                                 setUserId(user.id);
+                                localStorage.setItem('userId', user.id);
                                 toast.success('Success!', {
                                     position: 'top-right',
                                     autoClose: 3000,
@@ -153,6 +149,28 @@ const Form: React.FC = () => {
         // setIsLogin(true);
     }, [isSubmit]);
 
+    const logInInputs: Input[] = [
+        {
+            id: 6,
+            name: 'userName',
+            type: 'text',
+            placeholder: 'Username...',
+            label: 'Username',
+            required: false,
+            pattern: '^[A-Za-z0-9]{3,16}$',
+            autoComplete: 'username',
+        },
+        {
+            id: 99,
+            name: 'password',
+            type: 'password',
+            placeholder: 'Password...',
+            label: 'Password',
+            required: false,
+            autoComplete: 'current-password',
+        },
+    ];
+
     const signUpInputs: Input[] = [
         {
             id: 1,
@@ -185,7 +203,6 @@ const Form: React.FC = () => {
             label: 'Password',
             pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
             required: true,
-            autoComplete: 'current-password',
         },
         {
             id: 4,
@@ -194,47 +211,32 @@ const Form: React.FC = () => {
             placeholder: 'Confirm Password...',
             errorMessage: "Passwords don't match!",
             label: 'Confirm Password',
-            pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
+            pattern: formValues.password,
             required: true,
-            autoComplete: 'current-password',
         },
     ];
-
-    const logInInputs: Input[] = [
-        {
-            id: 6,
-            name: 'userName',
-            type: 'text',
-            placeholder: 'Username...',
-            label: 'Username',
-            required: false,
-            pattern: '^[A-Za-z0-9]{3,16}$',
-            autoComplete: 'username',
-        },
-        {
-            id: 99,
-            name: 'password',
-            type: 'password',
-            placeholder: 'Password...',
-            label: 'Password',
-            required: false,
-            autoComplete: 'current-password',
-        },
-    ];
-
     return (
         <div className={cx('wrapper')}>
             <form action="" className={cx('form')} onSubmit={handleSubmit}>
                 <div className={cx('header')}>{isLogin ? 'Log In' : 'Sign Up'}</div>
                 <div className={cx('body')}>
-                    {data?.map((input) => (
-                        <FormInput
-                            key={input.id}
-                            {...input}
-                            value={formValues[input.name as keyof FormValues]}
-                            onChange={handleInput}
-                        />
-                    ))}
+                    {isLogin
+                        ? logInInputs.map((input) => (
+                              <FormInput
+                                  key={input.id}
+                                  {...input}
+                                  value={formValues[input.name as keyof FormValues]}
+                                  onChange={handleInput}
+                              />
+                          ))
+                        : signUpInputs.map((x) => (
+                              <FormInput
+                                  key={x.id}
+                                  {...x}
+                                  value={formValues[x.name as keyof FormValues]}
+                                  onChange={handleInput}
+                              />
+                          ))}
                 </div>
                 <button type="submit" className={cx('submit')}>
                     {isLogin ? 'Log In' : 'Sign Up'}

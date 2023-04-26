@@ -127,17 +127,6 @@ const Home: React.FC = () => {
                         )}
                     </div>
                     <div className={cx('body')}>
-                        {data.map((item, index) => (
-                            <Item
-                                item={item}
-                                index={index}
-                                key={item.id}
-                                handleDelete={handleDelete}
-                                userId={userId}
-                                handHeader={handHeader}
-                                listId={listId}
-                            />
-                        ))}
                         {addItem && (
                             <Item
                                 item={initItem}
@@ -149,6 +138,17 @@ const Home: React.FC = () => {
                                 listId={listId}
                             />
                         )}
+                        {data.map((item, index) => (
+                            <Item
+                                item={item}
+                                index={index}
+                                key={item.id}
+                                handleDelete={handleDelete}
+                                userId={userId}
+                                handHeader={handHeader}
+                                listId={listId}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>

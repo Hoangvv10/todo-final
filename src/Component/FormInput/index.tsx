@@ -6,7 +6,7 @@ import styles from './FormInput.module.scss';
 const cx = classNames.bind(styles);
 
 interface Props {
-    value: string;
+    value: string | undefined;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     id: number;
     name: string;
@@ -21,8 +21,10 @@ interface Props {
 
 const FormInput: React.FC<Props> = (props) => {
     const [isFocused, setIsFocused] = useState<boolean>(false);
-    const { value, onChange, id, name, type, placeholder, errorMessage, label, pattern, required, autoComplete } =
-        props;
+    const { label, errorMessage, onChange, id, ...inputProps } = props;
+
+    id === 4 && console.log(inputProps.pattern);
+
     return (
         <div
             className={cx({
@@ -32,20 +34,13 @@ const FormInput: React.FC<Props> = (props) => {
         >
             <label>{label}</label>
             <input
-                type={type}
-                id={id.toString()}
-                name={name}
-                value={value}
+                {...inputProps}
                 onChange={onChange}
-                placeholder={placeholder}
-                pattern={pattern}
-                required={required}
                 onFocus={() => {
-                    name === 'confirmPassword' && setIsFocused(true);
+                    inputProps.name === 'confirmPassword' && setIsFocused(true);
                 }}
                 onBlur={() => setIsFocused(true)}
                 className={cx('input')}
-                autoComplete={autoComplete}
             />
             <span className={cx('error-message')}>{errorMessage}</span>
         </div>
