@@ -88,6 +88,17 @@
 .form-name,
 .form-email {
     border: 1px solid #245953;
+    position: relative;
+    width: 40%;
+}
+
+.inner input {
+    padding: 12px 8px;
+    width: 100%;
+}
+
+.form-email {
+    margin-left: 12px;
 }
 
 .form-btn {
@@ -95,6 +106,20 @@
     flex: 1;
     justify-content: flex-end;
     align-items: center;
+}
+
+.is-first {
+    min-height: 70px;
+}
+
+.is-first .label {
+    transform: translateY(10%);
+    text-decoration: underline;
+    background-color: transparent;
+}
+
+.is-first input {
+    padding-top: 30px;
 }
 
 .abort {
@@ -108,6 +133,17 @@
     margin: 0 20px;
     color: rgb(70, 246, 70);
     cursor: pointer;
+}
+
+.label {
+    font-weight: lighter;
+    position: absolute;
+    top: 0;
+    transform: translateY(-65%);
+    left: 4px;
+    padding: 0 4px;
+    background-color: #fff;
+    color: rgba($color: #000000, $alpha: 0.6);
 }
 
 .delete {

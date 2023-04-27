@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faSquareXmark, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import axios from 'axios';
 import { faSquareCheck } from '@fortawesome/free-solid-svg-icons';
@@ -50,13 +50,15 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
         idUser: 0,
     });
 
+    const formRef = useRef<HTMLFormElement | null>(null);
+
     useEffect(() => {
         setData(item);
     }, [item]);
 
     const handleOpenEdit = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>): void => {
         setIsEditOpen(true);
-        if (handHeader) handHeader(false);
+        if (handHeader && index === 0) handHeader(false);
     };
 
     const handleCloseEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -102,6 +104,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
         e.preventDefault();
         setIsSubmit(true);
         setIsEditOpen(false);
+        if (handHeader) handHeader(true);
     };
 
     useEffect(() => {
@@ -122,7 +125,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                 content: formValues.content === '' && data ? data?.content : formValues.content,
                 title: formValues.title === '' && data ? data?.title : formValues.title,
                 status: formValues.status === '' && data ? data?.status : formValues.status,
-                category: formValues.category === '' && data ? data?.content : formValues.content,
+                category: formValues.category === '' && data ? data?.category : formValues.category,
                 userId: userId,
                 createAt: item.createAt,
                 updateAt: moment(new Date()).format('DD/MM/YYYY'),
@@ -186,11 +189,17 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                     'is-open': isEditOpen || isAdd,
                 })}
                 onSubmit={handleSubmit}
+                ref={formRef}
             >
                 <div className={cx('inner')}>
                     {userId === 1 && (
                         <div className={cx('form-category')}>
-                            <select name="idUser" value={curId.idUser} onChange={handleIdInput} required>
+                            <select
+                                name="idUser"
+                                value={curId.idUser === 0 ? data?.userId : curId.idUser}
+                                onChange={handleIdInput}
+                                required
+                            >
                                 <option></option>
                                 <>
                                     {listId?.map((item, index) => (

@@ -63,6 +63,9 @@ const Sidebar: React.FC = () => {
                 }
             });
         }
+
+        userId === 1 && navigate('/');
+
         setOpenLogin(false);
     }, [userId]);
 

@@ -14,6 +14,7 @@ interface Props {
     prop: TUser;
     index: number;
     handleDelete: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+    handHeader?: (value: boolean) => void;
 }
 
 interface FormValues {
@@ -21,7 +22,7 @@ interface FormValues {
     email: string;
 }
 
-const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
+const UserItem: React.FC<Props> = ({ prop, handleDelete, index, handHeader }) => {
     const [data, setData] = useState<TUser | undefined>();
 
     useEffect(() => {
@@ -39,11 +40,13 @@ const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
 
     const handleOpenEdit = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>): void => {
         setIsEditOpen(true);
+        if (handHeader && index === 0) handHeader(false);
     };
 
     const handleCloseEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         setIsEditOpen(false);
+        if (handHeader) handHeader(true);
     };
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -68,14 +71,15 @@ const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
         e.preventDefault();
         setIsSubmit(true);
         setIsEditOpen(false);
+        if (handHeader) handHeader(true);
     };
 
     useEffect(() => {
         if (isSubmit) {
             const editData: TUser = {
-                userName: formValues.userName,
+                userName: formValues.userName === '' && data ? data?.userName : formValues.userName,
                 password: data?.password,
-                email: formValues.email,
+                email: formValues.email === '' && data ? data?.email : formValues.email,
                 createAt: data?.createAt,
                 updateAt: moment(new Date()).format('DD/MM/YYYY'),
                 id: data?.id,
@@ -92,7 +96,12 @@ const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
     }, [isSubmit]);
 
     return (
-        <div className={cx('item')}>
+        <div
+            className={cx({
+                item: true,
+                'is-first': index === 0 && isEditOpen,
+            })}
+        >
             <div className={cx('id')}>{index + 1}</div>
             <div className={cx('name')}>{data?.userName}</div>
             <div className={cx('email')}>{data?.email}</div>
@@ -115,20 +124,24 @@ const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
                 onSubmit={handleSubmit}
             >
                 <div className={cx('inner')}>
-                    <input
-                        type="text"
-                        name="userName"
-                        value={formValues.userName}
-                        className={cx('form-name')}
-                        onChange={handleInput}
-                    />
-                    <input
-                        type="text"
-                        name="email"
-                        value={formValues.email}
-                        className={cx('form-email')}
-                        onChange={handleInput}
-                    />
+                    <div className={cx('form-name')}>
+                        <input
+                            type="text"
+                            name="userName"
+                            value={formValues.userName === '' && data ? data?.userName : formValues.userName}
+                            onChange={handleInput}
+                        />
+                        <label className={cx('label')}>User name</label>
+                    </div>
+                    <div className={cx('form-email')}>
+                        <input
+                            type="text"
+                            name="email"
+                            value={formValues.email === '' && data ? data?.email : formValues.email}
+                            onChange={handleInput}
+                        />
+                        <label className={cx('label')}>Email</label>
+                    </div>
 
                     <div className={cx('form-btn')}>
                         <button className={cx('abort')} onClick={handleCloseEdit}>

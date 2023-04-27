@@ -5,9 +5,9 @@
       "title": "Long tuoi xanh",
       "status": "in progress",
       "category": "yellow",
-      "userId": 3,
+      "userId": 1,
       "createAt": "25/04/2023",
-      "updateAt": "25/04/2023",
+      "updateAt": "27/04/2023",
       "id": 5
     },
     {
@@ -29,46 +29,6 @@
       "createAt": "25/04/2023",
       "updateAt": "25/04/2023",
       "id": 11
-    },
-    {
-      "content": "Let's take our time tonight, girl\nAbove us all the stars are watchin'\nThere's no place I'd rather be in this world\nYour eyes are where I'm lost in\nUnderneath the chandelier\nWe're dancin' all alone\nThere's no reason to hide\nWhat we're feelin' inside\nRight now",
-      "title": "Versace on the floor",
-      "status": "in progress",
-      "category": "red",
-      "userId": 8,
-      "createAt": "25/04/2023",
-      "updateAt": "25/04/2023",
-      "id": 12
-    },
-    {
-      "content": "It's beautiful night. I think i wanna marry u",
-      "title": "Marry me ",
-      "status": "completed",
-      "category": "yellow",
-      "userId": "5",
-      "createAt": "25/04/2023",
-      "updateAt": "25/04/2023",
-      "id": 13
-    },
-    {
-      "content": "mang nhung nos nhw biet es dag xs las",
-      "title": "Playah",
-      "status": "in progress",
-      "category": "red",
-      "userId": "8",
-      "createAt": "26/04/2023",
-      "updateAt": "26/04/2023",
-      "id": 14
-    },
-    {
-      "content": "zxc cvb nml kjh gfd dsa poi uyt rew",
-      "title": "Crooked",
-      "status": "in progress",
-      "category": "red",
-      "userId": 3,
-      "createAt": "26/04/2023",
-      "updateAt": "26/04/2023",
-      "id": 15
     }
   ],
   "user": [
@@ -77,7 +37,7 @@
       "password": "12345678",
       "email": "admin@gmail.com",
       "createAt": "22/04/2023",
-      "updateAt": "24/04/2023",
+      "updateAt": "27/04/2023",
       "id": 1
     },
     {
@@ -90,10 +50,10 @@
     },
     {
       "userName": "abcds113",
-      "email": "minhhieu092@gmail.com",
       "password": "Abcds113@",
+      "email": "minhhieu092@gmail.com",
       "createAt": "24/04/2023",
-      "updateAt": "24/04/2023",
+      "updateAt": "27/04/2023",
       "id": 3
     },
     {
