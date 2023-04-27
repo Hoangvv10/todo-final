@@ -10,7 +10,6 @@ const cx = classNames.bind(styles);
 
 const Admin: React.FC = () => {
     const [data, setData] = useState<TUser[]>([]);
-    const [isHeader, setIsHeader] = useState<boolean>(true);
 
     useEffect(() => {
         new Promise(async (resolve, reject) => {
@@ -45,35 +44,23 @@ const Admin: React.FC = () => {
             });
     };
 
-    const handHeader = (value: boolean) => {
-        setIsHeader(value);
-    };
-
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <div className={cx('table')}>
                     <div className={cx('header')}>
-                        {isHeader && (
-                            <>
-                                <div className={cx('id')}>Id</div>
-                                <div className={cx('name')}>Username</div>
-                                <div className={cx('email')}>Email</div>
-                                <div className={cx('password')}>Password</div>
-                                <div className={cx('date')}>Create at</div>
-                                <div className={cx('date')}>Update at</div>
-                            </>
-                        )}
+                        <>
+                            <div className={cx('id')}>Id</div>
+                            <div className={cx('name')}>Username</div>
+                            <div className={cx('email')}>Email</div>
+                            <div className={cx('password')}>Password</div>
+                            <div className={cx('date')}>Create at</div>
+                            <div className={cx('date')}>Update at</div>
+                        </>
                     </div>
                     <div className={cx('body')}>
                         {data.map((item, index) => (
-                            <UserItem
-                                prop={item}
-                                key={item.id}
-                                index={index}
-                                handleDelete={handleDelete}
-                                handHeader={handHeader}
-                            />
+                            <UserItem prop={item} key={item.id} index={index} handleDelete={handleDelete} />
                         ))}
                     </div>
                 </div>

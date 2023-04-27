@@ -14,7 +14,6 @@ interface Props {
     prop: TUser;
     index: number;
     handleDelete: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
-    handHeader?: (value: boolean) => void;
 }
 
 interface FormValues {
@@ -22,7 +21,7 @@ interface FormValues {
     email: string;
 }
 
-const UserItem: React.FC<Props> = ({ prop, handleDelete, index, handHeader }) => {
+const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
     const [data, setData] = useState<TUser | undefined>();
 
     useEffect(() => {
@@ -40,13 +39,11 @@ const UserItem: React.FC<Props> = ({ prop, handleDelete, index, handHeader }) =>
 
     const handleOpenEdit = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>): void => {
         setIsEditOpen(true);
-        if (handHeader && index === 0) handHeader(false);
     };
 
     const handleCloseEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         setIsEditOpen(false);
-        if (handHeader) handHeader(true);
     };
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -71,7 +68,6 @@ const UserItem: React.FC<Props> = ({ prop, handleDelete, index, handHeader }) =>
         e.preventDefault();
         setIsSubmit(true);
         setIsEditOpen(false);
-        if (handHeader) handHeader(true);
     };
 
     useEffect(() => {
