@@ -27,7 +27,7 @@ const Home: React.FC = () => {
                 });
                 resolve(response);
                 if (response.status === 200) {
-                    const list = response.data.filter((item: TTaskItems) => item.userId === userId);
+                    const list = response.data.filter((item: TTaskItems) => item.userId === Number(userId));
                     userId === 1 ? setData(response.data) : setData(list);
                 } else {
                     // throw error;
