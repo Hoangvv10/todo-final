@@ -24,7 +24,7 @@ function App() {
                 <ToastContainer />
                 <Routes>
                     {routes?.map((route, index) => {
-                        const Layout = route.layout === null ? Fragment : DefaultLayout;
+                        const Layout = DefaultLayout;
                         const Page = route.component;
 
                         return (

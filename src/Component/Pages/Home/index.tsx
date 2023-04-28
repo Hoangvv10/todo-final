@@ -61,7 +61,7 @@ const Home: React.FC = () => {
 
     const handleDelete = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         const target = e.target as HTMLElement;
-        setData(data.filter((item) => `${item.id}` != target.dataset.index));
+        setData(data.filter((item) => `${item.id}` !== target.dataset.index));
 
         axios
             .delete(`http://localhost:4000/data/${target.dataset.index}`)
@@ -112,7 +112,7 @@ const Home: React.FC = () => {
                                 Category
                             </div>
                             <div className={cx('status')}>Status</div>
-                            {userId != 0 && (
+                            {userId !== 0 && (
                                 <div className={cx('add-btn')} onClick={handleAddItem}>
                                     <FontAwesomeIcon icon={faSquarePlus} />
                                 </div>

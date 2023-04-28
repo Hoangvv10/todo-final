@@ -59,7 +59,7 @@ const Sidebar: React.FC = () => {
     };
 
     useEffect(() => {
-        if (userId != 0) {
+        if (userId !== 0) {
             new Promise(async (resolve, reject) => {
                 try {
                     const response = await axios({
@@ -127,7 +127,7 @@ const Sidebar: React.FC = () => {
                     </ul>
                 )}
 
-                {userName != '' && (
+                {userName !== '' && (
                     <button className={cx('log-out')} onClick={handleLogout}>
                         <FontAwesomeIcon icon={faRightFromBracket} />
                         <p>Log out</p>

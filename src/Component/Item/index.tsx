@@ -50,8 +50,6 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
         idUser: 0,
     });
 
-    const formRef = useRef<HTMLFormElement | null>(null);
-
     useEffect(() => {
         setData(item);
     }, [item]);
@@ -84,6 +82,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
 
     const handleIdInput = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target;
+        console.log(name, value);
 
         setCurId({
             ...curId,
@@ -128,7 +127,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                 title: formValues.title === '' && data ? data?.title : formValues.title,
                 status: formValues.status === '' && data ? data?.status : formValues.status,
                 category: formValues.category === '' && data ? data?.category : formValues.category,
-                userId: userId === 1 ? idUser : userId,
+                userId: idUser === 0 && data ? data?.userId : idUser,
                 createAt: item.createAt,
                 updateAt: moment(new Date()).format('DD/MM/YYYY'),
                 id: item.id,
@@ -192,7 +191,6 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                     'is-open': isEditOpen || isAdd,
                 })}
                 onSubmit={handleSubmit}
-                ref={formRef}
             >
                 <div className={cx('inner')}>
                     {userId === 1 && (

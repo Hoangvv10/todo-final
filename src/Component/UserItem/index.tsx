@@ -55,15 +55,6 @@ const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
         });
     };
 
-    const headers = {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer my_token',
-    };
-
-    const config = {
-        headers: headers,
-    };
-
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmit(true);
