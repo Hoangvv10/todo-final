@@ -111,12 +111,14 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
         if (isSubmit) {
             const { idUser } = curId;
 
+            const editId = Number(idUser);
+
             const addData = {
                 content: formValues.content,
                 title: formValues.title,
                 status: formValues.status,
                 category: formValues.category,
-                userId: userId === 1 ? idUser : userId,
+                userId: userId === 1 ? editId : userId,
                 createAt: moment(new Date()).format('DD/MM/YYYY'),
                 updateAt: moment(new Date()).format('DD/MM/YYYY'),
             };
@@ -151,6 +153,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                     });
             }
         }
+        setIsSubmit(false);
     }, [isSubmit]);
 
     return (

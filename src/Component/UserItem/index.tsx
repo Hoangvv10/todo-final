@@ -89,6 +89,8 @@ const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
                     console.error('Error updating user:', error);
                 });
         }
+
+        setIsSubmit(false);
     }, [isSubmit]);
 
     return (

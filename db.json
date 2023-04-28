@@ -15,7 +15,7 @@
       "title": "Tầng Thượng 102",
       "status": "completed",
       "category": "yellow",
-      "userId": "8",
+      "userId": 8,
       "createAt": "25/04/2023",
       "updateAt": "27/04/2023",
       "id": 10
@@ -25,7 +25,7 @@
       "title": "Đến Hết Hôm Nay",
       "status": "in progress",
       "category": "red",
-      "userId": "3",
+      "userId": 3,
       "createAt": "25/04/2023",
       "updateAt": "27/04/2023",
       "id": 11
@@ -45,7 +45,7 @@
       "title": "perfect",
       "status": "in progress",
       "category": "green",
-      "userId": "11",
+      "userId": 11,
       "createAt": "27/04/2023",
       "updateAt": "27/04/2023",
       "id": 13
@@ -55,10 +55,60 @@
       "title": "d",
       "status": "completed",
       "category": "green",
-      "userId": "9",
+      "userId": 9,
       "createAt": "27/04/2023",
       "updateAt": "27/04/2023",
       "id": 14
+    },
+    {
+      "content": "456",
+      "title": "456",
+      "status": "completed",
+      "category": "red",
+      "userId": 2,
+      "createAt": "28/04/2023",
+      "updateAt": "28/04/2023",
+      "id": 15
+    },
+    {
+      "content": "789123",
+      "title": "789",
+      "status": "in progress",
+      "category": "yellow",
+      "userId": 2,
+      "createAt": "28/04/2023",
+      "updateAt": "28/04/2023",
+      "id": 16
+    },
+    {
+      "content": "test",
+      "title": "test",
+      "status": "to do",
+      "category": "green",
+      "userId": "2",
+      "createAt": "28/04/2023",
+      "updateAt": "28/04/2023",
+      "id": 17
+    },
+    {
+      "content": "yahadd",
+      "title": "plaas",
+      "status": "in progress",
+      "category": "green",
+      "userId": 6,
+      "createAt": "28/04/2023",
+      "updateAt": "28/04/2023",
+      "id": 19
+    },
+    {
+      "content": "sav",
+      "title": "bss",
+      "status": "completed",
+      "category": "red",
+      "userId": 6,
+      "createAt": "28/04/2023",
+      "updateAt": "28/04/2023",
+      "id": 20
     }
   ],
   "user": [
@@ -103,27 +153,27 @@
       "id": 5
     },
     {
-      "userName": "andiez1",
-      "email": "anh@gmail.com",
+      "userName": "andiez123",
       "password": "Abcds113@",
+      "email": "anh@gmail.com",
       "createAt": "25/04/2023",
-      "updateAt": "25/04/2023",
+      "updateAt": "28/04/2023",
       "id": 6
     },
     {
-      "userName": "cahoihoang",
-      "email": "a@gmail.com",
+      "userName": "cahoihoang12",
       "password": "Abcds333@",
+      "email": "a@gmail.com",
       "createAt": "25/04/2023",
-      "updateAt": "25/04/2023",
+      "updateAt": "28/04/2023",
       "id": 7
     },
     {
       "userName": "brunomars",
-      "email": "bruno@mar.gmail.com",
       "password": "Abcdef@2",
+      "email": "bruno@mar.com",
       "createAt": "25/04/2023",
-      "updateAt": "25/04/2023",
+      "updateAt": "28/04/2023",
       "id": 8
     },
     {
@@ -141,14 +191,6 @@
       "createAt": "26/04/2023",
       "updateAt": "26/04/2023",
       "id": 10
-    },
-    {
-      "userName": "wwww",
-      "email": "1@gmail.com",
-      "password": "abcds113@",
-      "createAt": "26/04/2023",
-      "updateAt": "26/04/2023",
-      "id": 11
     },
     {
       "userName": "sss",
