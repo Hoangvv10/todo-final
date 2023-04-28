@@ -116,7 +116,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                 title: formValues.title,
                 status: formValues.status,
                 category: formValues.category,
-                userId: userId !== 1 ? userId : idUser,
+                userId: userId === 1 ? idUser : userId,
                 createAt: moment(new Date()).format('DD/MM/YYYY'),
                 updateAt: moment(new Date()).format('DD/MM/YYYY'),
             };
@@ -126,7 +126,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                 title: formValues.title === '' && data ? data?.title : formValues.title,
                 status: formValues.status === '' && data ? data?.status : formValues.status,
                 category: formValues.category === '' && data ? data?.category : formValues.category,
-                userId: userId,
+                userId: userId === 1 ? idUser : userId,
                 createAt: item.createAt,
                 updateAt: moment(new Date()).format('DD/MM/YYYY'),
                 id: item.id,

@@ -23,8 +23,6 @@ const FormInput: React.FC<Props> = (props) => {
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const { label, errorMessage, onChange, id, ...inputProps } = props;
 
-    id === 4 && console.log(inputProps.pattern);
-
     return (
         <div
             className={cx({

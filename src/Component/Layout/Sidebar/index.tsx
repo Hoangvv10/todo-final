@@ -36,6 +36,21 @@ const Sidebar: React.FC = () => {
         }
     };
 
+    const port: string = window.location.pathname;
+
+    useEffect(() => {
+        switch (port) {
+            case '/':
+                setNavActive(1);
+                break;
+            case '/admin':
+                setNavActive(2);
+                break;
+            default:
+                break;
+        }
+    }, [port]);
+
     const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         setUserId(0);
         setUserName('');
@@ -92,7 +107,6 @@ const Sidebar: React.FC = () => {
                             })}
                             onClick={() => {
                                 navigate('/');
-                                setNavActive(1);
                             }}
                         >
                             <FontAwesomeIcon icon={faHouse} />
@@ -105,7 +119,6 @@ const Sidebar: React.FC = () => {
                             })}
                             onClick={() => {
                                 navigate('/admin');
-                                setNavActive(2);
                             }}
                         >
                             <FontAwesomeIcon icon={faUser} />
