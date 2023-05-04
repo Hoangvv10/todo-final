@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import classNames from 'classnames/bind';
-import axios from 'axios';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,6 +9,8 @@ import styles from './Form.module.scss';
 import FormInput from '../FormInput';
 import { TUser } from '../TSType';
 import { UserContext } from '../../store/UserContext';
+import { axiosGet, axiosPost } from '../axiosHooks';
+import { USER_API_URL } from '../APIs';
 
 const cx = classNames.bind(styles);
 
@@ -40,114 +41,9 @@ const Form: React.FC = () => {
         confirmPassword: '',
     };
     const [formValues, setFormValues] = useState<FormValues>(initValue);
-    const [isSubmit, setIsSubmit] = useState<boolean>(false);
     const [isLogin, setIsLogin] = useState<boolean>(true);
 
     const { setUserId } = useContext(UserContext);
-
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        const { name, value } = e.target;
-        setFormValues({
-            ...formValues,
-            [name]: value,
-        });
-    };
-
-    const handleSignUp = (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
-        setIsLogin((prev) => !prev);
-        setFormValues(initValue);
-    };
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setIsSubmit(true);
-    };
-
-    const headers = {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer my_token',
-    };
-
-    const config = {
-        headers: headers,
-    };
-
-    useEffect(() => {
-        if (isSubmit) {
-            const { userName, email, password } = formValues;
-
-            new Promise(async (resolve, reject) => {
-                try {
-                    const response = await axios({
-                        url: 'http://localhost:4000/user',
-                        method: 'get',
-                    });
-                    resolve(response);
-                    if (response.status === 200) {
-                        const user = response.data.find(
-                            (u: TUser) => u.userName === userName && u.password === password,
-                        );
-
-                        const userRegister = response.data.find((u: TUser) => u.userName === userName);
-
-                        if (isLogin) {
-                            if (user) {
-                                setUserId(user.id);
-                                localStorage.setItem('userId', user.id);
-                                toast.success('Success!', {
-                                    position: 'top-right',
-                                    autoClose: 3000,
-                                });
-                            } else {
-                                toast.error('Error!', {
-                                    position: 'top-right',
-                                    autoClose: 3000,
-                                });
-                            }
-                            setFormValues(initValue);
-                        } else {
-                            if (userRegister) {
-                                toast.error('Username is not available', {
-                                    position: 'top-right',
-                                    autoClose: 3000,
-                                });
-                                setFormValues({ userName: '', email: email, password: password, confirmPassword: '' });
-                            } else {
-                                const userData: TUser = {
-                                    userName: userName,
-                                    email: email,
-                                    password: password,
-                                    createAt: moment(new Date()).format('DD/MM/YYYY'),
-                                    updateAt: moment(new Date()).format('DD/MM/YYYY'),
-                                };
-
-                                axios
-                                    .post('http://localhost:4000/user', userData, config)
-                                    .then((response) => {
-                                        toast.success('Success!', {
-                                            position: 'top-right',
-                                            autoClose: 3000,
-                                        });
-                                        setUserId(response.data.id);
-                                    })
-                                    .catch((error) => {
-                                        console.error(error);
-                                    });
-                                setFormValues(initValue);
-                                setIsLogin(true);
-                            }
-                        }
-                    } else {
-                        // throw error;
-                    }
-                } catch (error) {
-                    reject(error);
-                }
-            });
-        }
-        setIsSubmit(false);
-        // setIsLogin(true);
-    }, [isSubmit]);
 
     const logInInputs: Input[] = [
         {
@@ -215,6 +111,86 @@ const Form: React.FC = () => {
             required: true,
         },
     ];
+
+    const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const { name, value } = e.target;
+        setFormValues({
+            ...formValues,
+            [name]: value,
+        });
+    };
+
+    const handleSignUp = (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
+        setIsLogin((prev) => !prev);
+        setFormValues(initValue);
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const { userName, email, password } = formValues;
+
+        const result = await axiosGet<TUser[]>(USER_API_URL);
+        if (result.data) {
+            const user = result.data.find((u: TUser) => u.userName === userName && u.password === password);
+
+            const userRegister = result.data.find((u: TUser) => u.userName === userName);
+
+            if (isLogin) {
+                if (user) {
+                    if (!!user.id) {
+                        setUserId(user.id);
+                        localStorage.setItem('userId', user.id.toString());
+                    }
+
+                    toast.success('Success!', {
+                        position: 'top-right',
+                        autoClose: 3000,
+                    });
+                } else {
+                    toast.error('Error!', {
+                        position: 'top-right',
+                        autoClose: 3000,
+                    });
+                }
+                setFormValues(initValue);
+            } else {
+                if (userRegister) {
+                    toast.error('Username is not available', {
+                        position: 'top-right',
+                        autoClose: 3000,
+                    });
+                    setFormValues({ userName: '', email: email, password: password, confirmPassword: '' });
+                } else {
+                    const userData: TUser = {
+                        userName: userName,
+                        email: email,
+                        password: password,
+                        createAt: moment(new Date()).format('DD/MM/YYYY'),
+                        updateAt: moment(new Date()).format('DD/MM/YYYY'),
+                    };
+
+                    const result = await axiosPost<TUser>(USER_API_URL, userData);
+                    if (result.data) {
+                        toast.success('Success!', {
+                            position: 'top-right',
+                            autoClose: 3000,
+                        });
+                        result.data.id && setUserId(result.data.id);
+                    } else {
+                        toast.error(`Error: ${result.error?.message}`, {
+                            position: 'top-right',
+                            autoClose: 3000,
+                        });
+                    }
+
+                    setFormValues(initValue);
+                    setIsLogin(true);
+                }
+            }
+        }
+    };
+
     return (
         <div className={cx('wrapper')}>
             <form action="" className={cx('form')} onSubmit={handleSubmit}>

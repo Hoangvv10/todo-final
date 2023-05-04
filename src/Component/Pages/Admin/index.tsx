@@ -5,6 +5,8 @@ import UserItem from '../../UserItem';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { USER_API_URL } from '../../APIs';
+import { axiosGet } from '../../axiosHooks';
 
 const cx = classNames.bind(styles);
 
@@ -12,22 +14,13 @@ const Admin: React.FC = () => {
     const [data, setData] = useState<TUser[]>([]);
 
     useEffect(() => {
-        new Promise(async (resolve, reject) => {
-            try {
-                const response = await axios({
-                    url: 'http://localhost:4000/user',
-                    method: 'get',
-                });
-                resolve(response);
-                if (response.status === 200) {
-                    setData(response.data);
-                } else {
-                    // throw error;
-                }
-            } catch (error) {
-                reject(error);
+        const fetchData = async () => {
+            const result = await axiosGet<TUser[]>(USER_API_URL);
+            if (result.data) {
+                setData(result.data);
             }
-        });
+        };
+        fetchData();
     }, []);
 
     const handleDelete = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {

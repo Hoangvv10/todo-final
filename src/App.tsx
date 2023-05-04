@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { privateRoutes, publicRoutes } from './Routes';
-import { Fragment, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -24,7 +24,6 @@ function App() {
                 <ToastContainer />
                 <Routes>
                     {routes?.map((route, index) => {
-                        const Layout = DefaultLayout;
                         const Page = route.component;
 
                         return (
@@ -32,9 +31,9 @@ function App() {
                                 key={index}
                                 path={route.path}
                                 element={
-                                    <Layout>
+                                    <DefaultLayout>
                                         <Page />
-                                    </Layout>
+                                    </DefaultLayout>
                                 }
                             />
                         );

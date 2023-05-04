@@ -1,13 +1,15 @@
 import styles from './Home.module.scss';
-import { TTaskItems } from '../../TSType';
+import { TTaskItems, TUser } from '../../TSType';
 import { UserContext } from '../../../store/UserContext';
 import Item from '../../Item';
+import { DATA_API_URL, USER_API_URL } from '../../APIs';
 
 import classNames from 'classnames/bind';
 import { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
+import { axiosDel, axiosGet } from '../../axiosHooks';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
@@ -18,61 +20,6 @@ const Home: React.FC = () => {
     const [listId, setListId] = useState<number[]>([]);
     const [addItem, setAddItem] = useState<boolean>(false);
 
-    useEffect(() => {
-        new Promise(async (resolve, reject) => {
-            try {
-                const response = await axios({
-                    url: 'http://localhost:4000/data',
-                    method: 'get',
-                });
-                resolve(response);
-                if (response.status === 200) {
-                    const list = response.data.filter((item: TTaskItems) => item.userId === Number(userId));
-                    userId === 1 ? setData(response.data) : setData(list);
-                } else {
-                    // throw error;
-                }
-            } catch (error) {
-                reject(error);
-            }
-        });
-    }, [userId]);
-
-    useEffect(() => {
-        new Promise(async (resolve, reject) => {
-            try {
-                const response = await axios({
-                    url: 'http://localhost:4000/user',
-                    method: 'get',
-                });
-                resolve(response);
-                if (response.status === 200) {
-                    const list: number[] = [];
-                    response.data.forEach((item: TTaskItems) => list.push(item.id));
-                    setListId(list);
-                } else {
-                    // throw error;
-                }
-            } catch (error) {
-                reject(error);
-            }
-        });
-    }, [userId]);
-
-    const handleDelete = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-        const target = e.target as HTMLElement;
-        setData(data.filter((item) => `${item.id}` !== target.dataset.index));
-
-        axios
-            .delete(`http://localhost:4000/data/${target.dataset.index}`)
-            .then((response) => {
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
-
     const initItem: TTaskItems = {
         category: '',
         content: '',
@@ -82,6 +29,49 @@ const Home: React.FC = () => {
         updateAt: '',
         userId: 0,
         id: data.length,
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axiosGet<TTaskItems[]>(DATA_API_URL);
+            if (result.data) {
+                const list = result.data.filter((item: TTaskItems) => item.userId === Number(userId));
+                userId === 1 ? setData(result.data) : setData(list);
+            }
+        };
+        fetchData();
+    }, [userId]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axiosGet<TUser[]>(USER_API_URL);
+            if (result.data) {
+                const list: number[] = [];
+                result.data.forEach((item: TUser) => {
+                    item.id && list.push(item.id);
+                });
+                setListId(list);
+            }
+        };
+        fetchData();
+    }, [userId]);
+
+    const handleDelete = async (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+        const target = e.target as HTMLElement;
+        setData(data.filter((item) => `${item.id}` !== target.dataset.index));
+
+        const result = await axiosDel<TTaskItems>(DATA_API_URL + target.dataset.index);
+        if (result.data) {
+            toast.success('Task deleted successfully', {
+                position: 'top-right',
+                autoClose: 2500,
+            });
+        } else {
+            toast.error(`Error: ${result.error?.message}`, {
+                position: 'top-right',
+                autoClose: 2500,
+            });
+        }
     };
 
     const handleAddItem = (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {

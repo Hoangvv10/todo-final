@@ -7,6 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faSquareCheck, faSquareXmark, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { axiosPut } from '../axiosHooks';
+import { USER_API_URL } from '../APIs';
 
 const cx = classNames.bind(styles);
 
@@ -22,14 +25,9 @@ interface FormValues {
 }
 
 const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
-    const [data, setData] = useState<TUser | undefined>();
-
-    useEffect(() => {
-        setData(prop);
-    }, [prop]);
+    const [data, setData] = useState<TUser | undefined>(prop);
 
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
-    const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
     const initValue: FormValues = {
         userName: '',
@@ -55,34 +53,30 @@ const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setIsSubmit(true);
-        setIsEditOpen(false);
-    };
 
-    useEffect(() => {
-        if (isSubmit) {
-            const editData: TUser = {
-                userName: formValues.userName === '' && data ? data?.userName : formValues.userName,
-                password: data?.password,
-                email: formValues.email === '' && data ? data?.email : formValues.email,
-                createAt: data?.createAt,
-                updateAt: moment(new Date()).format('DD/MM/YYYY'),
-                id: data?.id,
-            };
-            axios
-                .put(`http://localhost:4000/user/${data?.id}`, editData)
-                .then((response) => {
-                    setData(response.data);
-                })
-                .catch((error) => {
-                    console.error('Error updating user:', error);
-                });
+        const editData: TUser = {
+            userName: formValues.userName === '' && data ? data?.userName : formValues.userName,
+            password: data?.password,
+            email: formValues.email === '' && data ? data?.email : formValues.email,
+            createAt: data?.createAt,
+            updateAt: moment(new Date()).format('DD/MM/YYYY'),
+            id: data?.id,
+        };
+
+        const result = await axiosPut<TUser>(USER_API_URL + data?.id, editData);
+        if (result.data) {
+            setData(result.data);
+        } else {
+            toast.error(`Error: ${result.error?.message}`, {
+                position: 'top-right',
+                autoClose: 3000,
+            });
         }
 
-        setIsSubmit(false);
-    }, [isSubmit]);
+        setIsEditOpen(false);
+    };
 
     return (
         <div

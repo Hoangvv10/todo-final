@@ -1,3 +1,7 @@
+:root {
+    --active-color: #f7d060;
+}
+
 .wrapper {
     position: absolute;
     top: 0;
@@ -37,12 +41,12 @@
     cursor: pointer;
 
     &:hover {
-        color: #f7d060;
+        color: var(--active-color);
     }
 }
 
 .nav-active {
-    color: #f7d060;
+    color: var(--active-color);
     position: relative;
     cursor: default;
 }
@@ -55,7 +59,7 @@
     width: 4px;
     top: 4px;
     bottom: 4px;
-    background-color: #f7d060;
+    background-color: var(--active-color);
 }
 
 .nav-text {
@@ -91,7 +95,7 @@
 }
 
 .user {
-    color: #f7d060;
+    color: var(--active-color);
     font-size: 2.4rem;
 }
 
@@ -106,6 +110,6 @@
     cursor: pointer;
 
     &:hover {
-        color: #f7d060;
+        color: var(--active-color);
     }
 }

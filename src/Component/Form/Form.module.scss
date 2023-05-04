@@ -1,3 +1,9 @@
+:root {
+    --bg-btn-color: #000;
+    --text-btn-color: #fff;
+    --btn-hover-color: aqua;
+}
+
 .header {
     font-size: 3rem;
     font-weight: 700;
@@ -15,8 +21,8 @@
     height: 40px;
     border-radius: 8px;
     text-align: center;
-    background-color: #000;
-    color: #fff;
+    background-color: var(--bg-btn-color);
+    color: var(--text-btn-color);
     margin-top: 20px;
     cursor: pointer;
 }
@@ -32,7 +38,7 @@
 
 .sign-up:hover {
     cursor: pointer;
-    color: aqua;
+    color: var(--btn-hover-color);
 }
 
 .login-btn {
@@ -40,6 +46,6 @@
     cursor: pointer;
 
     &:hover {
-        color: aquamarine;
+        color: var(--btn-hover-color);
     }
 }

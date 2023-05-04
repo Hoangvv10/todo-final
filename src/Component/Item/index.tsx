@@ -1,14 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faSquareXmark, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useState } from 'react';
 import moment from 'moment';
-import axios from 'axios';
 import { faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 
 import { TTaskItems } from '../TSType';
 import styles from './Item.module.scss';
 import { Category, Status } from '../TSType';
+import { axiosPost, axiosPut } from '../axiosHooks';
+import { DATA_API_URL } from '../APIs';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
@@ -20,7 +22,6 @@ interface Props {
     handleAdd?: (value: TTaskItems | null) => void;
     userId: number;
     listId?: number[];
-    handHeader?: (value: boolean) => void;
 }
 
 interface FormValues {
@@ -30,14 +31,9 @@ interface FormValues {
     content: string;
 }
 
-interface userIdValue {
-    idUser: number;
-}
-
-const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, userId, listId, handHeader }) => {
-    const [data, setData] = useState<TTaskItems | undefined>();
+const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, userId, listId }) => {
+    const [data, setData] = useState<TTaskItems | undefined>(item);
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
-    const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
     const initValue: FormValues = {
         title: '',
@@ -46,24 +42,16 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
         content: '',
     };
     const [formValues, setFormValues] = useState<FormValues>(initValue);
-    const [curId, setCurId] = useState<userIdValue>({
-        idUser: 0,
-    });
-
-    useEffect(() => {
-        setData(item);
-    }, [item]);
+    const [curId, setCurId] = useState<TTaskItems['userId']>(0);
 
     const handleOpenEdit = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>): void => {
         setIsEditOpen(true);
-        if (handHeader && index === 0) handHeader(false);
     };
 
     const handleCloseEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         setIsEditOpen(false);
         if (handleAdd) handleAdd(null);
-        if (handHeader) handHeader(true);
     };
 
     const handleInput = (
@@ -74,86 +62,63 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
     ): void => {
         const { name, value } = e.target;
 
-        setFormValues({
-            ...formValues,
-            [name]: value,
-        });
+        if (name === 'idUser') {
+            setCurId(Number(e.target.value));
+        } else {
+            setFormValues({
+                ...formValues,
+                [name]: value,
+            });
+        }
     };
 
-    const handleIdInput = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        console.log(name, value);
-
-        setCurId({
-            ...curId,
-            [name]: value,
-        });
-    };
-
-    const headers = {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer my_token',
-    };
-
-    const config = {
-        headers: headers,
-    };
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setIsSubmit(true);
         setIsEditOpen(false);
-        if (handHeader) handHeader(true);
-    };
+        const editId = Number(curId);
 
-    useEffect(() => {
-        if (isSubmit) {
-            const { idUser } = curId;
+        const addData = {
+            content: formValues.content,
+            title: formValues.title,
+            status: formValues.status,
+            category: formValues.category,
+            userId: userId === 1 ? editId : userId,
+            createAt: moment(new Date()).format('DD/MM/YYYY'),
+            updateAt: moment(new Date()).format('DD/MM/YYYY'),
+        };
 
-            const editId = Number(idUser);
-
-            const addData = {
-                content: formValues.content,
-                title: formValues.title,
-                status: formValues.status,
-                category: formValues.category,
-                userId: userId === 1 ? editId : userId,
-                createAt: moment(new Date()).format('DD/MM/YYYY'),
-                updateAt: moment(new Date()).format('DD/MM/YYYY'),
-            };
-
-            const editData: TTaskItems = {
-                content: formValues.content === '' && data ? data?.content : formValues.content,
-                title: formValues.title === '' && data ? data?.title : formValues.title,
-                status: formValues.status === '' && data ? data?.status : formValues.status,
-                category: formValues.category === '' && data ? data?.category : formValues.category,
-                userId: idUser === 0 && data ? data?.userId : idUser,
-                createAt: item.createAt,
-                updateAt: moment(new Date()).format('DD/MM/YYYY'),
-                id: item.id,
-            };
-            if (!isAdd) {
-                axios
-                    .put(`http://localhost:4000/data/${item.id}`, editData)
-                    .then((response) => {
-                        setData(response.data);
-                    })
-                    .catch((error) => {
-                        console.error('Error updating user:', error);
-                    });
+        const editData: TTaskItems = {
+            content: formValues.content === '' && data ? data?.content : formValues.content,
+            title: formValues.title === '' && data ? data?.title : formValues.title,
+            status: formValues.status === '' && data ? data?.status : formValues.status,
+            category: formValues.category === '' && data ? data?.category : formValues.category,
+            userId: curId === 0 && data ? data?.userId : curId,
+            createAt: item.createAt,
+            updateAt: moment(new Date()).format('DD/MM/YYYY'),
+            id: item.id,
+        };
+        if (!isAdd) {
+            const result = await axiosPut<TTaskItems>(DATA_API_URL + item.id, editData);
+            if (result.data) {
+                setData(result.data);
             } else {
-                axios
-                    .post('http://localhost:4000/data', addData, config)
-                    .then((response) => {
-                        if (handleAdd) handleAdd(response.data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
+                toast.error(`Error: ${result.error?.message}`, {
+                    position: 'top-right',
+                    autoClose: 3000,
+                });
+            }
+        } else {
+            const result = await axiosPost<TTaskItems>(DATA_API_URL, addData);
+            if (result.data) {
+                if (handleAdd) handleAdd(result.data);
+            } else {
+                toast.error(`Error: ${result.error?.message}`, {
+                    position: 'top-right',
+                    autoClose: 3000,
+                });
             }
         }
-        setIsSubmit(false);
-    }, [isSubmit]);
+    };
 
     return (
         <div
@@ -197,8 +162,8 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                         <div className={cx('form-category')}>
                             <select
                                 name="idUser"
-                                value={curId.idUser === 0 ? data?.userId : curId.idUser}
-                                onChange={handleIdInput}
+                                value={curId === 0 ? data?.userId : curId}
+                                onChange={handleInput}
                                 required
                             >
                                 <option></option>
@@ -273,4 +238,4 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
     );
 };
 
-export default Item;
+export default memo(Item);

@@ -8,12 +8,11 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Sidebar.module.scss';
 import Form from '../../Form';
 import { UserContext } from '../../../store/UserContext';
+import { axiosGet } from '../../axiosHooks';
+import { TUser } from '../../TSType';
+import { DATA_API_URL, USER_API_URL } from '../../APIs';
 
 const cx = classNames.bind(styles);
-
-interface DataItem {
-    id: number;
-}
 
 const Sidebar: React.FC = () => {
     const { userId, setUserId } = useContext(UserContext);
@@ -26,6 +25,8 @@ const Sidebar: React.FC = () => {
 
     const modalRef = useRef<HTMLDivElement | null>(null);
 
+    const port: string = window.location.pathname;
+
     const handleOpenLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         setOpenLogin(true);
     };
@@ -35,8 +36,6 @@ const Sidebar: React.FC = () => {
             setOpenLogin(false);
         }
     };
-
-    const port: string = window.location.pathname;
 
     useEffect(() => {
         switch (port) {
@@ -60,26 +59,15 @@ const Sidebar: React.FC = () => {
 
     useEffect(() => {
         if (userId !== 0) {
-            new Promise(async (resolve, reject) => {
-                try {
-                    const response = await axios({
-                        url: 'http://localhost:4000/user',
-                        method: 'get',
-                    });
-                    resolve(response);
-                    if (response.status === 200) {
-                        const user = response.data.filter((i: DataItem) => i.id === userId);
-                        setUserName(user[0].userName);
-                    } else {
-                        // throw error;
-                    }
-                } catch (error) {
-                    reject(error);
+            const fetchData = async () => {
+                const result = await axiosGet<TUser[]>(USER_API_URL);
+                if (result.data) {
+                    const user = result.data.filter((i: TUser) => i.id === userId);
+                    setUserName(user[0].userName);
                 }
-            });
+            };
+            fetchData();
         }
-
-        userId === 1 && navigate('/');
 
         setOpenLogin(false);
     }, [userId]);
@@ -127,7 +115,7 @@ const Sidebar: React.FC = () => {
                     </ul>
                 )}
 
-                {userName !== '' && (
+                {!!userName && (
                     <button className={cx('log-out')} onClick={handleLogout}>
                         <FontAwesomeIcon icon={faRightFromBracket} />
                         <p>Log out</p>
