@@ -8,9 +8,10 @@ import { faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 import { TTaskItems } from '../TSType';
 import styles from './Item.module.scss';
 import { Category, Status } from '../TSType';
-import { axiosPost, axiosPut } from '../axiosHooks';
 import { DATA_API_URL } from '../APIs';
 import { toast } from 'react-toastify';
+import usePutAxios from '../axiosHooks/usePutAxios';
+import usePostAxios from '../axiosHooks/usePostAxios';
 
 const cx = classNames.bind(styles);
 
@@ -21,7 +22,7 @@ interface Props {
     isAdd?: boolean;
     handleAdd?: (value: TTaskItems | null) => void;
     userId: number;
-    listId?: number[];
+    listId: number[];
 }
 
 interface FormValues {
@@ -47,6 +48,9 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
     const handleOpenEdit = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>): void => {
         setIsEditOpen(true);
     };
+
+    const putData = usePutAxios;
+    const postData = usePostAxios;
 
     const handleCloseEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
@@ -98,7 +102,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
             id: item.id,
         };
         if (!isAdd) {
-            const result = await axiosPut<TTaskItems>(DATA_API_URL + item.id, editData);
+            const result = await putData<TTaskItems>(DATA_API_URL + item.id, editData);
             if (result.data) {
                 setData(result.data);
             } else {
@@ -108,7 +112,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                 });
             }
         } else {
-            const result = await axiosPost<TTaskItems>(DATA_API_URL, addData);
+            const result = await postData<TTaskItems>(DATA_API_URL, addData);
             if (result.data) {
                 if (handleAdd) handleAdd(result.data);
             } else {

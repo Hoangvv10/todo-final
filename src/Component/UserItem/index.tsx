@@ -6,10 +6,9 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faSquareCheck, faSquareXmark, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
-import axios from 'axios';
 import { toast } from 'react-toastify';
-import { axiosPut } from '../axiosHooks';
 import { USER_API_URL } from '../APIs';
+import usePutAxios from '../axiosHooks/usePutAxios';
 
 const cx = classNames.bind(styles);
 
@@ -25,6 +24,8 @@ interface FormValues {
 }
 
 const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
+    const putData = usePutAxios;
+
     const [data, setData] = useState<TUser | undefined>(prop);
 
     const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
@@ -65,7 +66,7 @@ const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
             id: data?.id,
         };
 
-        const result = await axiosPut<TUser>(USER_API_URL + data?.id, editData);
+        const result = await putData<TUser>(USER_API_URL + data?.id, editData);
         if (result.data) {
             setData(result.data);
         } else {
@@ -85,7 +86,7 @@ const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
                 'is-first': index === 0 && isEditOpen,
             })}
         >
-            <div className={cx('id')}>{index + 1}</div>
+            <div className={cx('id')}>{data?.id}</div>
             <div className={cx('name')}>{data?.userName}</div>
             <div className={cx('email')}>{data?.email}</div>
             <div className={cx('password')}>{data?.password}</div>

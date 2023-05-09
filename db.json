@@ -11,26 +11,6 @@
       "id": 5
     },
     {
-      "content": "Nhìn mây bay \nBay đến khu rừng già \nNhìn ánh sáng trốn phía sau tòa nhà \nNgày trôi qua nhanh \nHay ngày còn chưa tới \nNgày chờ đợi ai về \nĐến đây \nĐón em về \n\nRồi trong đêm \nTa thấy cả bầu trời \nVà ngày đó ta sẽ thôi chờ đợi ",
-      "title": "Tầng Thượng 10232",
-      "status": "completed",
-      "category": "green",
-      "userId": 9,
-      "createAt": "25/04/2023",
-      "updateAt": "04/05/2023",
-      "id": 10
-    },
-    {
-      "content": "456",
-      "title": "456",
-      "status": "completed",
-      "category": "red",
-      "userId": 2,
-      "createAt": "28/04/2023",
-      "updateAt": "28/04/2023",
-      "id": 15
-    },
-    {
       "content": "ssssf",
       "title": "bss",
       "status": "completed",
@@ -49,16 +29,6 @@
       "createAt": "04/05/2023",
       "updateAt": "04/05/2023",
       "id": 21
-    },
-    {
-      "content": "wanna be",
-      "title": "wanna be",
-      "status": "completed",
-      "category": "yellow",
-      "userId": 13,
-      "createAt": "04/05/2023",
-      "updateAt": "04/05/2023",
-      "id": 22
     }
   ],
   "user": [
@@ -71,60 +41,12 @@
       "id": 1
     },
     {
-      "userName": "Samsmith1",
-      "password": "12345678",
-      "email": "admin@gmail.com",
-      "createAt": "23/04/2023",
-      "updateAt": "03/05/2023",
-      "id": 2
-    },
-    {
-      "userName": "abcds1132",
-      "password": "Abcds113@",
-      "email": "minhhieu092@gmail.com",
-      "createAt": "24/04/2023",
-      "updateAt": "03/05/2023",
-      "id": 3
-    },
-    {
       "userName": "andiez",
       "password": "Abcds113@",
       "email": "hoangvv1010@gmail.com",
       "createAt": "24/04/2023",
       "updateAt": "04/05/2023",
       "id": 4
-    },
-    {
-      "userName": "dddsadd3",
-      "password": "123456@A",
-      "email": "Anhnhh4@gmail.com",
-      "createAt": "24/04/2023",
-      "updateAt": "03/05/2023",
-      "id": 5
-    },
-    {
-      "userName": "andiez123",
-      "password": "Abcds113@",
-      "email": "anh@gmail.com",
-      "createAt": "25/04/2023",
-      "updateAt": "28/04/2023",
-      "id": 6
-    },
-    {
-      "userName": "cahoihoang12",
-      "password": "Abcds333@",
-      "email": "a@gmail.com",
-      "createAt": "25/04/2023",
-      "updateAt": "28/04/2023",
-      "id": 7
-    },
-    {
-      "userName": "brunomars",
-      "password": "Abcdef@2",
-      "email": "bruno@mar.com",
-      "createAt": "25/04/2023",
-      "updateAt": "28/04/2023",
-      "id": 8
     },
     {
       "userName": "freddiemecury",
@@ -135,27 +57,19 @@
       "id": 9
     },
     {
-      "userName": "123",
-      "email": "1kiemdutchim@gmail.com",
-      "password": "12345aA@",
-      "createAt": "26/04/2023",
-      "updateAt": "26/04/2023",
-      "id": 10
-    },
-    {
-      "userName": "sss2",
-      "password": "abcdef2@",
-      "email": "dsa1d@gmail.com",
-      "createAt": "26/04/2023",
-      "updateAt": "04/05/2023",
+      "userName": "toth",
+      "email": "star@gmail.com",
+      "password": "Abcds113@",
+      "createAt": "09/05/2023",
+      "updateAt": "09/05/2023",
       "id": 12
     },
     {
-      "userName": "dalab",
-      "email": "2@gmail.com",
-      "password": "Abcds222@",
-      "createAt": "04/05/2023",
-      "updateAt": "04/05/2023",
+      "userName": "andiez2",
+      "email": "anh@gmail.com",
+      "password": "Abcds113@",
+      "createAt": "09/05/2023",
+      "updateAt": "09/05/2023",
       "id": 13
     }
   ]

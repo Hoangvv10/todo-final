@@ -1,41 +1,56 @@
 import styles from '../Home/Home.module.scss';
-import { TUser } from '../../TSType';
+import { TTaskItems, TUser } from '../../TSType';
 import UserItem from '../../UserItem';
 
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { USER_API_URL } from '../../APIs';
-import { axiosGet } from '../../axiosHooks';
+import { DATA_API_URL, USER_API_URL } from '../../APIs';
+import useGetAxios from '../../axiosHooks/useGetAxios';
+import useDelAxios from '../../axiosHooks/useDelAxios';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
 const Admin: React.FC = () => {
-    const [data, setData] = useState<TUser[]>([]);
+    const { data } = useGetAxios<TUser[]>(USER_API_URL);
+    const { data: itemsData } = useGetAxios<TTaskItems[]>(DATA_API_URL);
+
+    const delData = useDelAxios;
+
+    const [list, setList] = useState<TUser[]>([]);
+    const [delId, setDelId] = useState<number>(0);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const result = await axiosGet<TUser[]>(USER_API_URL);
-            if (result.data) {
-                setData(result.data);
-            }
-        };
-        fetchData();
-    }, []);
+        data && setList(data);
+    }, [data]);
 
     const handleDelete = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         const target = e.target as HTMLElement;
-        setData(data.filter((item) => `${item.id}` != target.dataset.index));
+        setList(list.filter((item) => item.id !== Number(target.dataset.index)));
+        setDelId(Number(target.dataset.index));
 
-        axios
-            .delete(`http://localhost:4000/user/${target.dataset.index}`)
-            .then((response) => {
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
+        const result = delData(USER_API_URL + target.dataset.index);
+        if (!!result) {
+            toast.success('User deleted successfully', {
+                position: 'top-right',
+                autoClose: 2500,
             });
+        } else {
+            toast.error(`Error`, {
+                position: 'top-right',
+                autoClose: 2500,
+            });
+        }
     };
+
+    useEffect(() => {
+        if (!!itemsData) {
+            const delList = itemsData.filter((item: TTaskItems) => item.userId === delId);
+            delList.map((x: TTaskItems) => {
+                delData(DATA_API_URL + x.id);
+            });
+        }
+    }, [itemsData, delId]);
 
     return (
         <div className={cx('wrapper')}>
@@ -52,7 +67,7 @@ const Admin: React.FC = () => {
                         </>
                     </div>
                     <div className={cx('body')}>
-                        {data.map((item, index) => (
+                        {list.map((item, index) => (
                             <UserItem prop={item} key={item.id} index={index} handleDelete={handleDelete} />
                         ))}
                     </div>

@@ -9,7 +9,8 @@ import styles from './Form.module.scss';
 import FormInput from '../FormInput';
 import { TUser } from '../TSType';
 import { UserContext } from '../../store/UserContext';
-import { axiosGet, axiosPost } from '../axiosHooks';
+import useGetAxios from '../axiosHooks/useGetAxios';
+import usePostAxios from '../axiosHooks/usePostAxios';
 import { USER_API_URL } from '../APIs';
 
 const cx = classNames.bind(styles);
@@ -34,6 +35,8 @@ interface Input {
 }
 
 const Form: React.FC = () => {
+    const { data: usersData } = useGetAxios<TUser[]>(USER_API_URL);
+
     const initValue: FormValues = {
         userName: '',
         email: '',
@@ -44,6 +47,8 @@ const Form: React.FC = () => {
     const [isLogin, setIsLogin] = useState<boolean>(true);
 
     const { setUserId } = useContext(UserContext);
+
+    const postData = usePostAxios;
 
     const logInInputs: Input[] = [
         {
@@ -130,19 +135,15 @@ const Form: React.FC = () => {
 
         const { userName, email, password } = formValues;
 
-        const result = await axiosGet<TUser[]>(USER_API_URL);
-        if (result.data) {
-            const user = result.data.find((u: TUser) => u.userName === userName && u.password === password);
-
-            const userRegister = result.data.find((u: TUser) => u.userName === userName);
-
+        if (usersData) {
+            const user = usersData?.find((u: TUser) => u.userName === userName && u.password === password);
+            const userRegister = usersData?.find((u: TUser) => u.userName === userName);
             if (isLogin) {
                 if (user) {
                     if (!!user.id) {
                         setUserId(user.id);
                         localStorage.setItem('userId', user.id.toString());
                     }
-
                     toast.success('Success!', {
                         position: 'top-right',
                         autoClose: 3000,
@@ -169,21 +170,24 @@ const Form: React.FC = () => {
                         createAt: moment(new Date()).format('DD/MM/YYYY'),
                         updateAt: moment(new Date()).format('DD/MM/YYYY'),
                     };
+                    const { data: postResult } = await postData<TUser>(USER_API_URL, userData);
 
-                    const result = await axiosPost<TUser>(USER_API_URL, userData);
-                    if (result.data) {
+                    if (postResult) {
                         toast.success('Success!', {
                             position: 'top-right',
                             autoClose: 3000,
                         });
-                        result.data.id && setUserId(result.data.id);
+
+                        if (!!postResult.id) {
+                            localStorage.setItem('userId', postResult.id.toString());
+                            setUserId(postResult.id);
+                        }
                     } else {
-                        toast.error(`Error: ${result.error?.message}`, {
+                        toast.error(`Error`, {
                             position: 'top-right',
                             autoClose: 3000,
                         });
                     }
-
                     setFormValues(initValue);
                     setIsLogin(true);
                 }

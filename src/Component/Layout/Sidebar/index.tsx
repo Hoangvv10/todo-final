@@ -2,20 +2,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import { useContext, useEffect, useRef, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './Sidebar.module.scss';
 import Form from '../../Form';
 import { UserContext } from '../../../store/UserContext';
-import { axiosGet } from '../../axiosHooks';
 import { TUser } from '../../TSType';
-import { DATA_API_URL, USER_API_URL } from '../../APIs';
+import { USER_API_URL } from '../../APIs';
+import useGetAxios from '../../axiosHooks/useGetAxios';
 
 const cx = classNames.bind(styles);
 
 const Sidebar: React.FC = () => {
     const { userId, setUserId } = useContext(UserContext);
+    const { data } = useGetAxios<TUser[]>(USER_API_URL);
+
     const [userName, setUserName] = useState<string>('');
     const [navActive, setNavActive] = useState<number>(1);
 
@@ -58,25 +59,18 @@ const Sidebar: React.FC = () => {
     };
 
     useEffect(() => {
-        if (userId !== 0) {
-            const fetchData = async () => {
-                const result = await axiosGet<TUser[]>(USER_API_URL);
-                if (result.data) {
-                    const user = result.data.filter((i: TUser) => i.id === userId);
-                    setUserName(user[0].userName);
-                }
-            };
-            fetchData();
+        if (data && userId !== 0) {
+            const user = data.find((i: TUser) => i.id === userId);
+            user && setUserName(user.userName);
         }
-
         setOpenLogin(false);
-    }, [userId]);
+    }, [userId, data]);
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <div className={cx('header')}>
-                    {userName === '' ? (
+                    {userId === 0 ? (
                         <button onClick={handleOpenLogin} className={cx('login')}>
                             Login
                         </button>
@@ -115,7 +109,7 @@ const Sidebar: React.FC = () => {
                     </ul>
                 )}
 
-                {!!userName && (
+                {userId !== 0 && (
                     <button className={cx('log-out')} onClick={handleLogout}>
                         <FontAwesomeIcon icon={faRightFromBracket} />
                         <p>Log out</p>
