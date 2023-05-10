@@ -5,7 +5,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './Sidebar.module.scss';
-import Form from '../../Form';
+import LoginForm from '../../LoginForm';
 import { UserContext } from '../../../store/UserContext';
 import { TUser } from '../../TSType';
 import { USER_API_URL } from '../../APIs';
@@ -126,7 +126,7 @@ const Sidebar: React.FC = () => {
             >
                 <div className={cx('modal-wrapper')}>
                     <div className={cx('modal-inner')} ref={modalRef}>
-                        <Form />
+                        <LoginForm />
                     </div>
                 </div>
             </div>

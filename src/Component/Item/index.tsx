@@ -12,6 +12,7 @@ import { DATA_API_URL } from '../APIs';
 import { toast } from 'react-toastify';
 import usePutAxios from '../axiosHooks/usePutAxios';
 import usePostAxios from '../axiosHooks/usePostAxios';
+import ItemForm from '../ItemForm';
 
 const cx = classNames.bind(styles);
 
@@ -154,90 +155,19 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                     <FontAwesomeIcon icon={faTrashCan} />
                 </span>
             </div>
-            <form
-                className={cx({
-                    'edit-form': true,
-                    'is-open': isEditOpen || isAdd,
-                })}
-                onSubmit={handleSubmit}
-            >
-                <div className={cx('inner')}>
-                    {userId === 1 && (
-                        <div className={cx('form-category')}>
-                            <select
-                                name="idUser"
-                                value={curId === 0 ? data?.userId : curId}
-                                onChange={handleInput}
-                                required
-                            >
-                                <option></option>
-                                <>
-                                    {listId?.map((item, index) => (
-                                        <option key={index}>{item}</option>
-                                    ))}
-                                </>
-                            </select>
-                            <label className={cx('label')}>User id</label>
-                        </div>
-                    )}
-                    <div className={cx('form-title')}>
-                        <textarea
-                            name="title"
-                            value={formValues.title === '' ? data?.title : formValues.title}
-                            onChange={handleInput}
-                            required
-                        />
-                        <label className={cx('label')}>title</label>
-                    </div>
-                    <div className={cx('form-content')}>
-                        <textarea
-                            name="content"
-                            value={formValues.content === '' ? data?.content : formValues.content}
-                            onChange={handleInput}
-                            required
-                        />
-                        <label className={cx('label')}>content</label>
-                    </div>
-                    <div className={cx('form-category')}>
-                        <select
-                            name="category"
-                            value={formValues.category === '' ? data?.category : formValues.category}
-                            onChange={handleInput}
-                            required
-                        >
-                            <option></option>
-                            <option>red</option>
-                            <option>yellow</option>
-                            <option>green</option>
-                        </select>
-                        <label className={cx('label')}>category</label>
-                    </div>
-                    <div className={cx('form-status')}>
-                        <select
-                            name="status"
-                            value={formValues.status === '' ? data?.status : formValues.status}
-                            onChange={handleInput}
-                            required
-                        >
-                            <option></option>
-                            <option>to do</option>
-                            <option>in progress</option>
-                            <option>completed</option>
-                        </select>
-                        <label className={cx('label')}>status</label>
-                    </div>
-
-                    <div className={cx('form-btn')}>
-                        <button className={cx('abort')} onClick={handleCloseEdit}>
-                            <FontAwesomeIcon icon={faSquareXmark} />
-                        </button>
-
-                        <button type="submit" className={cx('submit')}>
-                            <FontAwesomeIcon icon={faSquareCheck} />
-                        </button>
-                    </div>
-                </div>
-            </form>
+            <ItemForm
+                isItem={true}
+                isEditOpen={isEditOpen}
+                isAdd={isAdd}
+                userId={userId}
+                curId={curId}
+                itemData={data}
+                listId={listId}
+                handleItemInput={handleInput}
+                handleCloseEdit={handleCloseEdit}
+                formValues={formValues}
+                handleSubmit={handleSubmit}
+            />
         </div>
     );
 };

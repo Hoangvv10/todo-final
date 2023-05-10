@@ -2,13 +2,14 @@ import styles from './UserItem.module.scss';
 import { TUser } from '../TSType';
 
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faSquareCheck, faSquareXmark, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { USER_API_URL } from '../APIs';
 import usePutAxios from '../axiosHooks/usePutAxios';
+import ItemForm from '../ItemForm';
 
 const cx = classNames.bind(styles);
 
@@ -100,44 +101,16 @@ const UserItem: React.FC<Props> = ({ prop, handleDelete, index }) => {
                     <FontAwesomeIcon icon={faTrashCan} />
                 </span>
             </div>
-            <form
-                className={cx({
-                    'edit-form': true,
-                    'is-open': isEditOpen,
-                })}
-                onSubmit={handleSubmit}
-            >
-                <div className={cx('inner')}>
-                    <div className={cx('form-name')}>
-                        <input
-                            type="text"
-                            name="userName"
-                            value={formValues.userName === '' && data ? data?.userName : formValues.userName}
-                            onChange={handleInput}
-                        />
-                        <label className={cx('label')}>User name</label>
-                    </div>
-                    <div className={cx('form-email')}>
-                        <input
-                            type="text"
-                            name="email"
-                            value={formValues.email === '' && data ? data?.email : formValues.email}
-                            onChange={handleInput}
-                        />
-                        <label className={cx('label')}>Email</label>
-                    </div>
 
-                    <div className={cx('form-btn')}>
-                        <button className={cx('abort')} onClick={handleCloseEdit}>
-                            <FontAwesomeIcon icon={faSquareXmark} />
-                        </button>
-
-                        <button type="submit" className={cx('submit')}>
-                            <FontAwesomeIcon icon={faSquareCheck} />
-                        </button>
-                    </div>
-                </div>
-            </form>
+            <ItemForm
+                isItem={false}
+                isEditOpen={isEditOpen}
+                userData={data}
+                handleUserInput={handleInput}
+                handleCloseEdit={handleCloseEdit}
+                formValues={formValues}
+                handleSubmit={handleSubmit}
+            />
         </div>
     );
 };

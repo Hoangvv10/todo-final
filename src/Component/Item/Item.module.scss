@@ -191,6 +191,17 @@
     width: 9%;
 }
 
+.form-email {
+    margin-left: 12px;
+}
+
+.form-name,
+.form-email {
+    border: 1px solid #245953;
+    position: relative;
+    width: 40%;
+}
+
 .form-btn {
     display: flex;
     flex: 1;
@@ -201,6 +212,7 @@
 .abort {
     color: rgb(242, 79, 79);
     font-size: 2rem;
+    cursor: pointer;
 }
 
 .form-id {

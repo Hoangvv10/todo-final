@@ -1,26 +1,6 @@
 {
   "data": [
     {
-      "content": "chia tay nhau biet tro ve mo",
-      "title": "Long tuoi xanh",
-      "status": "in progress",
-      "category": "yellow",
-      "userId": 1,
-      "createAt": "25/04/2023",
-      "updateAt": "27/04/2023",
-      "id": 5
-    },
-    {
-      "content": "ssssf",
-      "title": "bss",
-      "status": "completed",
-      "category": "red",
-      "userId": 6,
-      "createAt": "28/04/2023",
-      "updateAt": "28/04/2023",
-      "id": 20
-    },
-    {
       "content": "aaaa",
       "title": "ssss",
       "status": "in progress",
@@ -29,6 +9,16 @@
       "createAt": "04/05/2023",
       "updateAt": "04/05/2023",
       "id": 21
+    },
+    {
+      "content": "csa",
+      "title": "sss",
+      "status": "in progress",
+      "category": "green",
+      "userId": 14,
+      "createAt": "10/05/2023",
+      "updateAt": "10/05/2023",
+      "id": 23
     }
   ],
   "user": [
@@ -41,14 +31,6 @@
       "id": 1
     },
     {
-      "userName": "andiez",
-      "password": "Abcds113@",
-      "email": "hoangvv1010@gmail.com",
-      "createAt": "24/04/2023",
-      "updateAt": "04/05/2023",
-      "id": 4
-    },
-    {
       "userName": "freddiemecury",
       "email": "1kiemdutchim@gmail.com",
       "password": "Abcds222@",
@@ -57,20 +39,20 @@
       "id": 9
     },
     {
-      "userName": "toth",
-      "email": "star@gmail.com",
-      "password": "Abcds113@",
-      "createAt": "09/05/2023",
-      "updateAt": "09/05/2023",
-      "id": 12
-    },
-    {
       "userName": "andiez2",
       "email": "anh@gmail.com",
       "password": "Abcds113@",
       "createAt": "09/05/2023",
       "updateAt": "09/05/2023",
       "id": 13
+    },
+    {
+      "userName": "qle",
+      "email": "abv@gmailc.so",
+      "password": "Abcds113@",
+      "createAt": "09/05/2023",
+      "updateAt": "09/05/2023",
+      "id": 14
     }
   ]
 }

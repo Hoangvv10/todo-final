@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
-import styles from './Form.module.scss';
+import styles from './LoginForm.module.scss';
 import FormInput from '../FormInput';
 import { TUser } from '../TSType';
 import { UserContext } from '../../store/UserContext';
@@ -34,7 +34,7 @@ interface Input {
     autoComplete?: string;
 }
 
-const Form: React.FC = () => {
+const LoginForm: React.FC = () => {
     const { data: usersData } = useGetAxios<TUser[]>(USER_API_URL);
 
     const initValue: FormValues = {
@@ -239,4 +239,4 @@ const Form: React.FC = () => {
     );
 };
 
-export default Form;
+export default LoginForm;
