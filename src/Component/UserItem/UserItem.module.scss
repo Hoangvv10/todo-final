@@ -62,3 +62,18 @@
     padding: 4px;
     cursor: pointer;
 }
+
+.delete {
+    position: relative;
+}
+
+.delete::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 22px;
+    width: 15px;
+    background-color: transparent;
+}

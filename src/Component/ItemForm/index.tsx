@@ -64,7 +64,7 @@ const ItemForm: React.FC<Props> = (props) => {
         >
             <div className={cx('inner')}>
                 {isItem ? (
-                    <div>
+                    <div className={cx('container')}>
                         {userId === 1 && (
                             <div className={cx('form-category')}>
                                 <select

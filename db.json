@@ -9,16 +9,6 @@
       "createAt": "04/05/2023",
       "updateAt": "04/05/2023",
       "id": 21
-    },
-    {
-      "content": "csa",
-      "title": "sss",
-      "status": "in progress",
-      "category": "green",
-      "userId": 14,
-      "createAt": "10/05/2023",
-      "updateAt": "10/05/2023",
-      "id": 23
     }
   ],
   "user": [
@@ -45,14 +35,6 @@
       "createAt": "09/05/2023",
       "updateAt": "09/05/2023",
       "id": 13
-    },
-    {
-      "userName": "qle",
-      "email": "abv@gmailc.so",
-      "password": "Abcds113@",
-      "createAt": "09/05/2023",
-      "updateAt": "09/05/2023",
-      "id": 14
     }
   ]
 }

@@ -4,7 +4,7 @@ import { TUser } from '../TSType';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faSquareCheck, faSquareXmark, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { USER_API_URL } from '../APIs';

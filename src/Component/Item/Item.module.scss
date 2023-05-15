@@ -54,6 +54,11 @@
     position: relative;
 }
 
+.container {
+    width: 100%;
+    display: flex;
+}
+
 .inner input,
 .inner textarea {
     padding: 16px 8px;

@@ -1,9 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faSquareXmark, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import { memo, useState } from 'react';
 import moment from 'moment';
-import { faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 
 import { TTaskItems } from '../TSType';
 import styles from './Item.module.scss';

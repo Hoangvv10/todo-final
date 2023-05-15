@@ -26,6 +26,7 @@ const Admin: React.FC = () => {
 
     const handleDelete = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         const target = e.target as HTMLElement;
+        console.log(target.dataset);
         setList(list.filter((item) => item.id !== Number(target.dataset.index)));
         setDelId(Number(target.dataset.index));
 
