@@ -30,7 +30,7 @@ const useGetAxios = <T>(url: string) => {
         fetchData();
     }, [userId]);
 
-    return response;
+    return { data: response.data, error: response.error };
 };
 
 export default useGetAxios;
