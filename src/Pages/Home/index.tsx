@@ -1,16 +1,17 @@
 import styles from './Home.module.scss';
 import { TTaskItems, TUser } from '../../TSType';
-import { UserContext } from '../../../store/UserContext';
-import Item from '../../Item';
-import { DATA_API_URL, USER_API_URL } from '../../APIs';
+import { UserContext } from '../../store/UserContext';
+import Item from '../../Component/Item';
+import { DATA_API_URL, USER_API_URL } from '../../APIsContants';
 
 import classNames from 'classnames/bind';
 import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
-import useDelAxios from '../../axiosHooks/useDelAxios';
-import useGetAxios from '../../axiosHooks/useGetAxios';
+import useDeleteAxios from '../../Component/axiosHooks/useDeleteAxios';
+import useGetAxios from '../../Component/axiosHooks/useGetAxios';
 import { toast } from 'react-toastify';
+import { ADMIN_ID } from '../../Component/StaticContants';
 
 const cx = classNames.bind(styles);
 
@@ -21,7 +22,7 @@ const Home: React.FC = () => {
     const [listId, setListId] = useState<number[]>([]);
     const [addItem, setAddItem] = useState<boolean>(false);
 
-    const delData = useDelAxios;
+    const delData = useDeleteAxios;
 
     const { data: dataUsers } = useGetAxios<TUser[]>(USER_API_URL);
     const { data: dataItems } = useGetAxios<TTaskItems[]>(DATA_API_URL);
@@ -40,7 +41,7 @@ const Home: React.FC = () => {
     useEffect(() => {
         if (dataItems) {
             const list = dataItems.filter((item: TTaskItems) => item.userId === Number(userId));
-            userId === 1 ? setData(dataItems) : setData(list);
+            userId === ADMIN_ID ? setData(dataItems) : setData(list);
         }
     }, [userId, dataItems]);
 
@@ -87,7 +88,7 @@ const Home: React.FC = () => {
                     <div className={cx('header')}>
                         <>
                             <div className={cx('id')}>Id</div>
-                            {userId === 1 && <div className={cx('id')}>UserId</div>}
+                            {userId === ADMIN_ID && <div className={cx('id')}>UserId</div>}
                             <div className={cx('title')}>Title</div>
                             <div className={cx('content')}>Content</div>
                             <div className={cx('time')}>Time</div>

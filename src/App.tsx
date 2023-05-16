@@ -7,7 +7,8 @@ import './App.css';
 
 import DefaultLayout from './Component/Layout/DefaultLayout';
 import { UserContext } from './store/UserContext';
-import { TRouter } from './Component/TSType';
+import { TRouter } from './TSType';
+import { ADMIN_ID } from './Component/StaticContants';
 
 function App() {
     const { userId } = useContext(UserContext);
@@ -15,7 +16,7 @@ function App() {
     const [routes, setRoutes] = useState<TRouter[]>();
 
     useEffect(() => {
-        userId === 1 ? setRoutes([...publicRoutes, ...privateRoutes]) : setRoutes(publicRoutes);
+        userId === ADMIN_ID ? setRoutes([...publicRoutes, ...privateRoutes]) : setRoutes(publicRoutes);
     }, [userId]);
 
     return (

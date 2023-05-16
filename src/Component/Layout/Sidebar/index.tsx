@@ -7,9 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Sidebar.module.scss';
 import LoginForm from '../../LoginForm';
 import { UserContext } from '../../../store/UserContext';
-import { TUser } from '../../TSType';
-import { USER_API_URL } from '../../APIs';
+import { TUser } from '../../../TSType';
+import { USER_API_URL } from '../../../APIsContants';
 import useGetAxios from '../../axiosHooks/useGetAxios';
+import { ADMIN_ID } from '../../StaticContants';
 
 const cx = classNames.bind(styles);
 
@@ -54,7 +55,7 @@ const Sidebar: React.FC = () => {
     const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         setUserId(0);
         setUserName('');
-        userId === 1 && navigate('/');
+        userId === ADMIN_ID && navigate('/');
         localStorage.setItem('userId', '0');
     };
 
@@ -80,7 +81,7 @@ const Sidebar: React.FC = () => {
                         </p>
                     )}
                 </div>
-                {userId === 1 && (
+                {userId === ADMIN_ID && (
                     <ul className={cx('nav-group')}>
                         <li
                             className={cx({

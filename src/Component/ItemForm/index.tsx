@@ -1,16 +1,18 @@
-import { Category, Status, TTaskItems, TUser } from '../TSType';
+import { Category, Status, TTaskItems, TUser } from '../../TSType';
 import styles from '../Item/Item.module.scss';
 
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareCheck, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
+import { memo } from 'react';
+import { ADMIN_ID } from '../StaticContants';
 
 const cx = classNames.bind(styles);
 
 interface ItemFormValues {
     title?: string;
-    category?: Category | '';
-    status?: Status | '';
+    category?: string;
+    status?: string;
     content?: string;
     userName?: string;
     email?: string;
@@ -65,7 +67,7 @@ const ItemForm: React.FC<Props> = (props) => {
             <div className={cx('inner')}>
                 {isItem ? (
                     <div className={cx('container')}>
-                        {userId === 1 && (
+                        {userId === ADMIN_ID && (
                             <div className={cx('form-category')}>
                                 <select
                                     name="idUser"
@@ -86,7 +88,7 @@ const ItemForm: React.FC<Props> = (props) => {
                         <div className={cx('form-title')}>
                             <textarea
                                 name="title"
-                                value={formValues.title && formValues.title === '' ? itemData?.title : formValues.title}
+                                value={formValues.title === '' ? itemData?.title : formValues.title}
                                 onChange={handleItemInput}
                                 required
                             />
@@ -166,4 +168,4 @@ const ItemForm: React.FC<Props> = (props) => {
     );
 };
 
-export default ItemForm;
+export default memo(ItemForm);

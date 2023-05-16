@@ -1,12 +1,12 @@
 import styles from '../Home/Home.module.scss';
 import { TTaskItems, TUser } from '../../TSType';
-import UserItem from '../../UserItem';
+import UserItem from '../../Component/UserItem';
 
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
-import { DATA_API_URL, USER_API_URL } from '../../APIs';
-import useGetAxios from '../../axiosHooks/useGetAxios';
-import useDelAxios from '../../axiosHooks/useDelAxios';
+import { DATA_API_URL, USER_API_URL } from '../../APIsContants';
+import useGetAxios from '../../Component/axiosHooks/useGetAxios';
+import useDeleteAxios from '../../Component/axiosHooks/useDeleteAxios';
 import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
@@ -15,7 +15,7 @@ const Admin: React.FC = () => {
     const { data } = useGetAxios<TUser[]>(USER_API_URL);
     const { data: itemsData } = useGetAxios<TTaskItems[]>(DATA_API_URL);
 
-    const delData = useDelAxios;
+    const delData = useDeleteAxios;
 
     const [list, setList] = useState<TUser[]>([]);
     const [delId, setDelId] = useState<number>(0);
@@ -26,7 +26,6 @@ const Admin: React.FC = () => {
 
     const handleDelete = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         const target = e.target as HTMLElement;
-        console.log(target.dataset);
         setList(list.filter((item) => item.id !== Number(target.dataset.index)));
         setDelId(Number(target.dataset.index));
 

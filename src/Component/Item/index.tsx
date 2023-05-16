@@ -4,14 +4,14 @@ import classNames from 'classnames/bind';
 import { memo, useState } from 'react';
 import moment from 'moment';
 
-import { TTaskItems } from '../TSType';
+import { TTaskItems } from '../../TSType';
 import styles from './Item.module.scss';
-import { Category, Status } from '../TSType';
-import { DATA_API_URL } from '../APIs';
+import { DATA_API_URL } from '../../APIsContants';
 import { toast } from 'react-toastify';
 import usePutAxios from '../axiosHooks/usePutAxios';
 import usePostAxios from '../axiosHooks/usePostAxios';
 import ItemForm from '../ItemForm';
+import { ADMIN_ID } from '../StaticContants';
 
 const cx = classNames.bind(styles);
 
@@ -25,12 +25,7 @@ interface Props {
     listId: number[];
 }
 
-interface FormValues {
-    title: string;
-    category: Category | '';
-    status: Status | '';
-    content: string;
-}
+type FormValues = Pick<TTaskItems, 'title' | 'category' | 'status' | 'content'>;
 
 const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, userId, listId }) => {
     const [data, setData] = useState<TTaskItems | undefined>(item);
@@ -86,7 +81,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
             title: formValues.title,
             status: formValues.status,
             category: formValues.category,
-            userId: userId === 1 ? editId : userId,
+            userId: userId === ADMIN_ID ? editId : userId,
             createAt: moment(new Date()).format('DD/MM/YYYY'),
             updateAt: moment(new Date()).format('DD/MM/YYYY'),
         };
@@ -132,7 +127,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
             })}
         >
             <div className={cx('id')}>{index + 1}</div>
-            {userId === 1 && <div className={cx('id')}>{data?.userId}</div>}
+            {userId === ADMIN_ID && <div className={cx('id')}>{data?.userId}</div>}
             <div className={cx('title')}>{data?.title}</div>
             <div className={cx('content')}>{data?.content}</div>
             <div className={cx('date')}>{data?.updateAt}</div>
@@ -155,7 +150,7 @@ const Item: React.FC<Props> = ({ item, index, handleDelete, isAdd, handleAdd, us
                 </span>
             </div>
             <ItemForm
-                isItem={true}
+                isItem
                 isEditOpen={isEditOpen}
                 isAdd={isAdd}
                 userId={userId}

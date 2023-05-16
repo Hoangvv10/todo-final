@@ -1,6 +1,6 @@
-import Home from '../Component/Pages/Home';
-import Admin from '../Component/Pages/Admin';
-import { TRouter } from '../Component/TSType';
+import Home from '../Pages/Home';
+import Admin from '../Pages/Admin';
+import { TRouter } from '../TSType';
 
 export const publicRoutes: TRouter[] = [{ path: '/', component: Home }];
 

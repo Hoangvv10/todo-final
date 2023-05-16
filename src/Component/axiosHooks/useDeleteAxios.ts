@@ -6,9 +6,9 @@ interface ApiResponse<T> {
     header?: any;
 }
 
-const useDelAxios = async <T>(url: string, data?: any): Promise<ApiResponse<T>> => {
+const useDeleteAxios = async <T>(url: string, data?: any): Promise<ApiResponse<T>> => {
     const response = await axios.delete<T>(url, data);
     return { data: response.data, error: null };
 };
 
-export default useDelAxios;
+export default useDeleteAxios;
