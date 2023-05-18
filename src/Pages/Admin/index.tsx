@@ -1,12 +1,12 @@
 import styles from '../Home/Home.module.scss';
 import { TTaskItems, TUser } from '../../TSType';
-import UserItem from '../../Component/UserItem';
+import UserItem from '@/Component/UserItem';
 
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
-import { DATA_API_URL, USER_API_URL } from '../../APIsContants';
-import useGetAxios from '../../Component/axiosHooks/useGetAxios';
-import useDeleteAxios from '../../Component/axiosHooks/useDeleteAxios';
+import { DATA_API_URL, USER_API_URL } from '@constants/APIsContants';
+import useGetAxios from '@axiosHooks/useGetAxios';
+import useDeleteAxios from '@axiosHooks/useDeleteAxios';
 import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);

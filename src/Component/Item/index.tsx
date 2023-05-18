@@ -4,14 +4,14 @@ import classNames from 'classnames/bind';
 import { memo, useState } from 'react';
 import moment from 'moment';
 
-import { TTaskItems } from '../../TSType';
+import { TTaskItems } from '@/TSType';
 import styles from './Item.module.scss';
-import { DATA_API_URL } from '../../APIsContants';
+import { DATA_API_URL } from '@constants/APIsContants';
 import { toast } from 'react-toastify';
-import usePutAxios from '../axiosHooks/usePutAxios';
-import usePostAxios from '../axiosHooks/usePostAxios';
+import usePutAxios from '@axiosHooks/usePutAxios';
+import usePostAxios from '@axiosHooks/usePostAxios';
 import ItemForm from '../ItemForm';
-import { ADMIN_ID } from '../StaticContants';
+import { ADMIN_ID } from '@constants/contants';
 
 const cx = classNames.bind(styles);
 

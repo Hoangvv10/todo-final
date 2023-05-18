@@ -1,11 +1,11 @@
-import { Category, Status, TTaskItems, TUser } from '../../TSType';
+import { TTaskItems, TUser } from '../../TSType';
 import styles from '../Item/Item.module.scss';
 
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareCheck, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { memo } from 'react';
-import { ADMIN_ID } from '../StaticContants';
+import { ADMIN_ID } from '@constants/contants';
 
 const cx = classNames.bind(styles);
 

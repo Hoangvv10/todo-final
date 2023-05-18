@@ -5,12 +5,12 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './Sidebar.module.scss';
-import LoginForm from '../../LoginForm';
-import { UserContext } from '../../../store/UserContext';
-import { TUser } from '../../../TSType';
-import { USER_API_URL } from '../../../APIsContants';
-import useGetAxios from '../../axiosHooks/useGetAxios';
-import { ADMIN_ID } from '../../StaticContants';
+import LoginForm from '@/Component/LoginForm';
+import { UserContext } from '@/store/UserContext';
+import { TUser } from '@/TSType';
+import { USER_API_URL } from '@constants/APIsContants';
+import useGetAxios from '@axiosHooks/useGetAxios';
+import { ADMIN_ID } from '@constants/contants';
 
 const cx = classNames.bind(styles);
 

@@ -8,7 +8,7 @@ import './App.css';
 import DefaultLayout from './Component/Layout/DefaultLayout';
 import { UserContext } from './store/UserContext';
 import { TRouter } from './TSType';
-import { ADMIN_ID } from './Component/StaticContants';
+import { ADMIN_ID } from '@constants/contants';
 
 function App() {
     const { userId } = useContext(UserContext);

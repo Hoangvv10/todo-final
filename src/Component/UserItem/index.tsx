@@ -1,5 +1,5 @@
 import styles from './UserItem.module.scss';
-import { TUser } from '../../TSType';
+import { TUser } from '@/TSType';
 
 import classNames from 'classnames/bind';
 import { useState } from 'react';
@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { toast } from 'react-toastify';
-import { USER_API_URL } from '../../APIsContants';
-import usePutAxios from '../axiosHooks/usePutAxios';
+import { USER_API_URL } from '@constants/APIsContants';
+import usePutAxios from '@axiosHooks/usePutAxios';
 import ItemForm from '../ItemForm';
 
 const cx = classNames.bind(styles);

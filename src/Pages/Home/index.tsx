@@ -1,17 +1,17 @@
 import styles from './Home.module.scss';
-import { TTaskItems, TUser } from '../../TSType';
-import { UserContext } from '../../store/UserContext';
-import Item from '../../Component/Item';
-import { DATA_API_URL, USER_API_URL } from '../../APIsContants';
+import { TTaskItems, TUser } from '@/TSType';
+import { UserContext } from '@/store/UserContext';
+import Item from '@/Component/Item';
+import { DATA_API_URL, USER_API_URL } from '@constants/APIsContants';
 
 import classNames from 'classnames/bind';
 import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
-import useDeleteAxios from '../../Component/axiosHooks/useDeleteAxios';
-import useGetAxios from '../../Component/axiosHooks/useGetAxios';
+import useDeleteAxios from '@axiosHooks/useDeleteAxios';
+import useGetAxios from '@axiosHooks/useGetAxios';
 import { toast } from 'react-toastify';
-import { ADMIN_ID } from '../../Component/StaticContants';
+import { ADMIN_ID } from '@constants/contants';
 
 const cx = classNames.bind(styles);
 
