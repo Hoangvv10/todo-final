@@ -1,5 +1,5 @@
 import styles from '../Home/Home.module.scss';
-import { TTaskItems, TUser } from '../../TSType';
+import { TTaskItems, TUser } from '@/TSType';
 import UserItem from '@/Component/UserItem';
 
 import classNames from 'classnames/bind';
