@@ -1,0 +1,79 @@
+.item {
+    width: 100%;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+}
+
+.item:last-child {
+    border: none;
+}
+
+.body {
+    flex-wrap: wrap;
+}
+
+.title::first-letter,
+.content::first-letter,
+.status::first-letter {
+    text-transform: uppercase;
+}
+
+.item,
+.body {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.item {
+    padding: 8px 16px;
+    position: relative;
+}
+
+.id {
+    width: 4%;
+}
+
+.body {
+    width: 100%;
+}
+
+.name {
+    width: 15%;
+}
+
+.email {
+    width: 20%;
+}
+
+.password {
+    width: 15%;
+}
+
+.time {
+    width: 15%;
+}
+
+.edit {
+    display: flex;
+    flex: 1;
+    gap: 16px;
+    justify-content: flex-end;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.delete {
+    position: relative;
+}
+
+.delete::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 22px;
+    width: 15px;
+    background-color: transparent;
+}

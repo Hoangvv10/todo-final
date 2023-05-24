@@ -1,0 +1,40 @@
+.form-input {
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    position: relative;
+}
+
+.input {
+    padding: 15px;
+    margin: 10px 0px;
+    border-radius: 5px;
+    border: 1px solid rgb(93, 92, 92);
+}
+
+.label {
+    font-size: 12px;
+    color: gray;
+}
+
+.error-message {
+    font-size: 12px;
+    padding: 3px;
+    color: red;
+    display: none;
+}
+
+.is-focus input:invalid {
+    border: 1px solid red;
+}
+
+.is-focus input:invalid ~ span {
+    display: block;
+}
+
+.toggle-password {
+    top: 48px;
+    position: absolute;
+    right: 16px;
+    cursor: pointer;
+}
